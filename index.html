@@ -49,6 +49,8 @@ p{margin:0;text-wrap:pretty}
 .wrap{position:relative;z-index:2;width:100%;max-width:1200px;max-height:100%;overflow-y:auto;margin:0 auto;
   padding:84px clamp(20px,5vw,64px) 110px}
 h1,h2{font-size:clamp(36px,5.8vw,76px);max-width:14ch}
+.kicker{font-size:clamp(14px,1.2vw,16px);font-weight:600;color:var(--accent);margin-bottom:16px}
+#why h1{font-size:clamp(34px,4.6vw,62px);max-width:20ch}
 .lead{margin-top:20px;font-size:clamp(17px,1.7vw,22px);color:var(--ink-2);max-width:42ch}
 
 /* each scene's parts ease in when it becomes active */
@@ -131,6 +133,7 @@ h1,h2{font-size:clamp(36px,5.8vw,76px);max-width:14ch}
 .inds{display:flex;flex-wrap:wrap;gap:6px;margin-top:22px}
 .inds button{border:1px solid var(--line);background:none;border-radius:999px;padding:7px 14px;font-size:14px;font-weight:500;color:var(--ink-2);transition:background .2s,color .2s,border-color .2s}
 .inds button:hover{border-color:rgba(255,255,255,.4);color:var(--ink)}
+.inds .feat{margin-left:7px;font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--accent)}
 .inds button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 .case{margin-top:16px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 20px;max-width:520px}
 .case p{font-size:15.5px;color:var(--ink-2);line-height:1.45}
@@ -148,6 +151,39 @@ h1,h2{font-size:clamp(36px,5.8vw,76px);max-width:14ch}
 #what .me img{width:84px}
 #what .next{margin-top:20px}
 #what .wrap{padding-top:76px}
+@media (max-height:800px) and (min-width:861px){
+  #what .me{display:none}
+  #what h2{font-size:clamp(30px,3.4vw,44px)}
+  #what .case{padding:14px 18px}
+  #what .case .nums{margin-top:10px}
+  #what .graph svg{max-height:50vh}
+}
+
+/* case study */
+.cs-open{margin-top:14px;border:0;background:none;padding:0;font-size:14.5px;font-weight:600;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
+.cs{width:min(920px,calc(100vw - 32px));max-height:calc(100vh - 48px);overflow:auto;padding:clamp(22px,4vw,40px);border:1px solid var(--line);border-radius:20px;
+  background:#141413;color:var(--ink)}
+.cs::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(4px)}
+.cs h2{font-size:clamp(26px,3.2vw,38px);max-width:none;margin-bottom:8px}
+.cs h3{font-size:17px;letter-spacing:-.01em;margin:22px 0 8px}
+.cs p,.cs li{font-size:15.5px;color:var(--ink-2);line-height:1.55}
+.cs ul{margin:0;padding-left:18px}.cs li+li{margin-top:5px}
+.cs-x{position:absolute;top:14px;right:16px;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:none;font-size:22px;line-height:1;color:var(--ink-2)}
+.cs-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,3vw,40px);align-items:start}
+@media (max-width:760px){.cs-grid{grid-template-columns:1fr}}
+.arch{margin:22px 0 0}
+.arch svg{width:100%;height:auto;display:block}
+.arch text{font-family:var(--font);font-size:12px;fill:var(--ink-2);text-anchor:middle}
+.arch .src rect{fill:rgba(255,255,255,.04);stroke:var(--line)}
+.arch .step rect{fill:rgba(255,255,255,.07);stroke:rgba(255,255,255,.25)}
+.arch .core rect{fill:var(--accent)}.arch .core text{fill:#111;font-weight:700}
+.arch .flow path{fill:none;stroke:rgba(255,255,255,.35);stroke-width:1.5}
+.arch figcaption{font-size:12.5px;color:var(--ink-3);margin-top:8px}
+.cs-res{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:760px){.cs-res{grid-template-columns:1fr}}
+.cs-res div{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:16px}
+.cs-res b{display:block;font-size:22px;color:var(--accent);letter-spacing:-.02em}
+.cs-res span{display:block;margin-top:6px;font-size:14px;color:var(--ink-2)}
 
 /* contact under the path */
 .talk-row{margin-top:22px}
@@ -197,6 +233,10 @@ h1,h2{font-size:clamp(36px,5.8vw,76px);max-width:14ch}
 .tabs button{flex:none;border:0;background:none;padding:8px 14px;border-radius:999px;font-size:14px;font-weight:500;color:var(--ink-3);transition:color .2s,background .2s}
 .tabs button:hover{color:var(--ink)}
 .tabs button[aria-current="true"]{color:var(--ink);background:rgba(255,255,255,.12)}
+@media (min-width:1000px){
+  .tabs{top:12px;bottom:auto;left:50%;right:auto;transform:translateX(-50%);padding:0;background:none;overflow:visible}
+  .wrap{padding-bottom:56px}
+}
 @media (max-width:760px){.tabs{justify-content:flex-start;background:rgba(14,14,13,.94);border-top:1px solid var(--line)}}
 /* headings take focus when a scene opens (for screen readers); no ring needed */
 h1:focus,h2:focus{outline:none}
@@ -224,15 +264,10 @@ h1:focus,h2:focus{outline:none}
   <video class="show" data-src="https://assets.mixkit.co/videos/20822/20822-720.mp4" muted loop playsinline preload="auto" aria-hidden="true"></video>
   <video data-src="https://assets.mixkit.co/videos/48353/48353-720.mp4" muted loop playsinline preload="none" aria-hidden="true"></video>
   <div class="wrap">
-    <h1 class="rv">Oil &amp; gas. Data centers. AI, AI, AI.</h1>
-    <p class="lead rv">Everyone's talking about it. AI runs on power from energy companies, and their data is scattered across systems that don't talk to each other.</p>
-    <div class="silos rv" aria-label="Separate systems">
-      <span><i style="background:var(--ops)"></i>Operations</span>
-      <span><i style="background:var(--maint)"></i>Maintenance</span>
-      <span><i style="background:var(--assets)"></i>Assets</span>
-      <span><i style="background:var(--fin)"></i>Finance</span>
-    </div>
-    <button class="next rv" type="button" data-next>But who actually implements it? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    <p class="kicker rv">Oil &amp; gas. Data centers. AI, AI, AI. Everyone's talking about it.</p>
+    <h1 class="rv">I build applied AI that connects fragmented data and simplifies real-world work.</h1>
+    <p class="lead rv">Applied AI engineer in Seattle, working across knowledge graphs, document automation and enterprise workflows.</p>
+    <button class="next rv" type="button" data-next>Explore my work <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
   </div>
 </section>
 
@@ -243,8 +278,8 @@ h1:focus,h2:focus{outline:none}
         <img src="assets/avatar.webp" alt="Illustrated avatar of Preethu, waving" width="1371" height="1147">
         <div class="who"><b>Hi, I'm Preethu.</b>Applied AI engineer · Seattle</div>
       </div>
-      <h2 class="rv">I do. In any industry.</h2>
-      <p class="lead rv">Give me a messy, real-world workflow. I connect the data, build the AI, and ship something people use.</p>
+      <h2 class="rv">Applied AI for complex enterprise workflows.</h2>
+      <p class="lead rv">Energy is where I go deepest. The same approach works anywhere data is scattered across systems.</p>
       <div class="inds rv" role="tablist" aria-label="Industries" id="inds"></div>
       <div class="case rv" id="case" role="tabpanel" aria-live="polite"></div>
       <button class="next rv" type="button" data-next>How did you get here? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
@@ -285,6 +320,56 @@ h1:focus,h2:focus{outline:none}
 </section>
 
 </main>
+
+<dialog class="cs" id="cs" aria-labelledby="csTitle">
+  <button class="cs-x" type="button" data-close aria-label="Close">×</button>
+  <p class="kicker">Case study · Data Squared · 2024 – now</p>
+  <h2 id="csTitle">Connecting an oil &amp; gas company's data</h2>
+
+  <div class="cs-grid">
+    <div>
+      <h3>The problem</h3>
+      <p>Operations, maintenance, asset management and finance each ran on their own systems. Answering a question that crossed them meant pulling data by hand, and invoices were checked by reading documents line by line.</p>
+      <h3>My part</h3>
+      <ul>
+        <li>Worked with client executives to define what the business needed.</li>
+        <li>Prototyped the data ingestion and integration layer, with traceability back to each source.</li>
+        <li>Built the unified knowledge graph across the four functions.</li>
+        <li>Designed the architecture for an unstructured-data loader: entity extraction and document classification for invoice verification and review.</li>
+      </ul>
+    </div>
+    <figure class="arch">
+      <svg viewBox="0 0 420 330" role="img" aria-label="Architecture: source systems and documents flow into a traceable ingestion layer and a document loader, both feed the knowledge graph, which answers questions for analytics and apps.">
+        <g class="src">
+          <rect x="0" y="0" width="120" height="34" rx="8"/><text x="60" y="22">Operations</text>
+          <rect x="0" y="44" width="120" height="34" rx="8"/><text x="60" y="66">Maintenance</text>
+          <rect x="0" y="88" width="120" height="34" rx="8"/><text x="60" y="110">Assets</text>
+          <rect x="0" y="132" width="120" height="34" rx="8"/><text x="60" y="154">Finance</text>
+          <rect x="0" y="206" width="120" height="44" rx="8"/><text x="60" y="226">Invoices &amp;</text><text x="60" y="241">documents</text>
+        </g>
+        <g class="flow">
+          <path d="M120 17 H150 V83 H160 M120 61 H150 M120 105 H150 V83 M120 149 H150 V83"/>
+          <path d="M120 228 H160"/>
+          <path d="M280 83 H300 V150 H310 M280 228 H300 V170 H310"/>
+          <path d="M365 185 V260"/>
+        </g>
+        <g class="step">
+          <rect x="160" y="58" width="120" height="50" rx="10"/><text x="220" y="80">Ingestion &amp;</text><text x="220" y="96">integration</text>
+          <rect x="160" y="203" width="120" height="50" rx="10"/><text x="220" y="225">Entity extraction</text><text x="220" y="241">+ classification</text>
+        </g>
+        <g class="core"><rect x="310" y="135" width="110" height="50" rx="12"/><text x="365" y="157">Knowledge</text><text x="365" y="173">graph</text></g>
+        <g class="step"><rect x="310" y="260" width="110" height="50" rx="10"/><text x="365" y="282">Questions,</text><text x="365" y="298">analytics, apps</text></g>
+      </svg>
+      <figcaption>Simplified and sanitized. Client systems and schemas stay confidential.</figcaption>
+    </figure>
+  </div>
+
+  <h3>Results</h3>
+  <div class="cs-res">
+    <div><b>6 months → 4 weeks</b><span>Time to integrate a new system, down from a typical six months. The prototype became a core component of the platform.</span></div>
+    <div><b>Hours → seconds</b><span>Invoice analysis, down from hours of manual review, about 10× productivity for the client team on that workflow.</span></div>
+  </div>
+</dialog>
 
 <nav class="tabs" id="tabs" aria-label="Story"></nav>
 
@@ -478,7 +563,8 @@ h1:focus,h2:focus{outline:none}
       '<p class="prob"><span>Problem</span>' + esc(ind.problem) + '</p>' +
       '<p class="built"><span>What I built</span>' + esc(ind.built) + '</p>' +
       '<div class="nums">' + ind.stats.map(function(s){ return '<div><b>' + esc(s[0]) + '</b><small>' + esc(s[1]) + '</small></div>'; }).join("") + '</div>' +
-      '<p class="at">' + esc(ind.where) + '</p>';
+      '<p class="at">' + esc(ind.where) + '</p>' +
+      (ind.id === "oil" ? '<button class="cs-open" type="button" data-case>Read the case study →</button>' : '');
     caseEl.classList.remove("swap"); void caseEl.offsetWidth; caseEl.classList.add("swap");
     activeAsk = -1;
     asksEl.innerHTML = "";
@@ -495,6 +581,7 @@ h1:focus,h2:focus{outline:none}
   INDUSTRIES.forEach(function(d, i){
     var b = document.createElement("button");
     b.type = "button"; b.setAttribute("role", "tab"); b.textContent = d.name;
+    if (i === 0){ var f = document.createElement("span"); f.className = "feat"; f.textContent = "Featured"; b.appendChild(f); }
     b.addEventListener("click", function(){ openIndustry(i); });
     indsEl.appendChild(b);
   });
@@ -505,6 +592,11 @@ h1:focus,h2:focus{outline:none}
     var n = (cur + d + INDUSTRIES.length) % INDUSTRIES.length; openIndustry(n); indsEl.children[n].focus();
   });
   openIndustry(0);
+  var cs = document.getElementById("cs");
+  document.addEventListener("click", function(e){
+    if (e.target.closest("[data-case]")) cs.showModal();
+    else if (e.target.closest("[data-close]") || e.target === cs) cs.close();
+  });
 
   /* ── tabs ── */
   var tabs = document.getElementById("tabs");
@@ -558,7 +650,7 @@ h1:focus,h2:focus{outline:none}
   document.querySelectorAll("[data-next]").forEach(function(b){ b.addEventListener("click", function(){ go(cur + 1); }); });
   document.querySelector("[data-go]").addEventListener("click", function(e){ e.preventDefault(); go(0); });
   addEventListener("keydown", function(e){
-    if (e.target.closest && e.target.closest("input,textarea")) return;
+    if (e.target.closest && e.target.closest("input,textarea,dialog")) return;
     if (e.key === "ArrowRight" || e.key === "PageDown"){ e.preventDefault(); go(cur + 1); }
     if (e.key === "ArrowLeft"  || e.key === "PageUp"){ e.preventDefault(); go(cur - 1); }
   });
