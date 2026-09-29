@@ -3,21 +3,19 @@
 Personal site of Preethu Nath Manjunath — **[preethu-manjunath.github.io](https://preethu-manjunath.github.io/)**
 
 ```
-index.html                    "Power × Intelligence" — a small 3D energy world (three.js)
-resume.html                   the plain résumé, with an in-browser GraphRAG search console
+index.html                    realistic 3D landscape (three.js + Poly Haven CC0 sky, textures, plants)
+resume.html                   short text résumé with an interactive knowledge-graph diagram
 assets/preethu.jpg            portrait
 .github/workflows/deploy.yml  publishes to GitHub Pages on every push to main
 ```
 
-No build step. Both pages are single HTML files; the only network requests are
-Google Fonts, three.js from jsDelivr (world), and — only once a visitor asks the
-résumé a question — transformers.js plus the MiniLM model (~23 MB, cached after).
+No build step. Both pages are single HTML files. The 3D page loads three.js from
+jsDelivr and CC0 assets straight from Poly Haven's CDN (~20 MB on first visit).
 
 ## Editing content
 
-- **World stops:** the `ZONES` array at the top of the script in `index.html`.
-- **Résumé:** the HTML in `resume.html`, and the `CHUNKS` / `NODES` arrays that
-  feed its search console (keep them in step with the visible text).
+- **3D scenes:** the `SCENES` (text) and `SHOTS` (camera) arrays in `index.html`.
+- **Résumé:** plain HTML in `resume.html`.
 
 ## Running locally
 
