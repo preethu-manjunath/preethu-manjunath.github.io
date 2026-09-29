@@ -3,105 +3,570 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Preethu Nath Manjunath · Applied AI engineer</title>
-<meta name="description" content="Applied AI engineer in Seattle. I build knowledge graphs for energy.">
+<title>Preethu Nath Manjunath · Knowledge graphs for energy</title>
+<meta name="description" content="AI data centers need power. Energy companies' data is scattered. I build the knowledge graphs that connect it. Preethu Nath Manjunath, applied AI engineer in Seattle.">
 <meta name="author" content="Preethu Nath Manjunath">
-<meta name="theme-color" content="#14120f">
+<meta name="theme-color" content="#0e0e0d">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Preethu Nath Manjunath · Applied AI engineer">
-<meta property="og:description" content="I build knowledge graphs for energy.">
+<meta property="og:title" content="Preethu Nath Manjunath · Knowledge graphs for energy">
+<meta property="og:description" content="AI data centers need power. Energy data is scattered. I connect it with knowledge graphs.">
 <meta property="og:url" content="https://preethu-manjunath.github.io/">
 <meta property="og:image" content="https://preethu-manjunath.github.io/assets/avatar.webp">
 <link rel="canonical" href="https://preethu-manjunath.github.io/">
 <link rel="preconnect" href="https://assets.mixkit.co">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231c1b19'/><text x='50' y='69' font-size='54' font-family='Georgia,serif' fill='%23faf9f6' text-anchor='middle'>PM</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%230e0e0d'/><text x='50' y='66' font-size='44' font-weight='700' font-family='Helvetica,Arial,sans-serif' fill='%23fff' text-anchor='middle'>PM</text></svg>">
 <style>
+:root{
+  --bg:#0e0e0d; --panel:#171716; --ink:#ffffff; --ink-2:rgba(255,255,255,.74); --ink-3:rgba(255,255,255,.5); --line:rgba(255,255,255,.14);
+  --accent:#f5a524;
+  --ops:#f5a524; --maint:#e5484d; --assets:#46a758; --fin:#3e8ef7;
+  --font:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;overflow:hidden;background:#14120f;color:#f4f1ea;
-  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
-a{color:inherit}
-:focus-visible{outline:2px solid #fff;outline-offset:4px;border-radius:2px}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font);font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased}
+a,button{color:inherit;font:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:6px}
+h1,h2,h3{margin:0;font-weight:700;letter-spacing:-.03em;line-height:1.04;text-wrap:balance}
+p{margin:0;text-wrap:pretty}
 
-.bg{position:fixed;inset:0;overflow:hidden}
-.bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 2.2s ease}
-.bg video.on{opacity:1}
-.bg::after{content:"";position:absolute;inset:0;
-  background:linear-gradient(90deg,rgba(0,0,0,.55),rgba(0,0,0,.15) 55%,rgba(0,0,0,0)),
-             linear-gradient(0deg,rgba(0,0,0,.45),rgba(0,0,0,0) 45%)}
+/* header */
+.top{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;justify-content:space-between;align-items:center;
+  padding:18px clamp(20px,5vw,64px);font-size:15px;font-weight:500;pointer-events:none}
+.top a{text-decoration:none;pointer-events:auto}
+.top .r{border-bottom:1px solid rgba(255,255,255,.5);padding-bottom:1px}
+.quick{display:flex;gap:clamp(14px,2vw,26px);pointer-events:auto}
+.quick a{opacity:.85;transition:opacity .2s}.quick a:hover{opacity:1}
 
-main{position:fixed;left:clamp(20px,5vw,72px);bottom:clamp(28px,8vh,88px);max-width:min(620px,calc(100vw - 40px));z-index:2}
-h1{font-family:"Source Serif 4",Georgia,serif;font-weight:400;font-size:clamp(40px,6vw,76px);line-height:1;letter-spacing:-.02em;margin:0 0 16px}
-p{margin:0;font-size:clamp(17px,1.6vw,20px);line-height:1.45;color:rgba(244,241,234,.85)}
-nav{display:flex;flex-wrap:wrap;gap:10px 24px;margin-top:26px;font-size:15px}
-nav a{text-decoration:none;border-bottom:1px solid rgba(255,255,255,.45);padding-bottom:2px;transition:border-color .2s}
-nav a:hover{border-color:#fff}
+/* scenes: one visible at a time */
+.scene{position:fixed;inset:0;display:flex;align-items:center;opacity:0;visibility:hidden;
+  transition:opacity .7s ease,visibility 0s linear .7s;overflow:hidden}
+.scene.on{opacity:1;visibility:visible;transition:opacity .7s ease,visibility 0s}
+.wrap{position:relative;z-index:2;width:100%;max-width:1200px;max-height:100%;overflow-y:auto;margin:0 auto;
+  padding:84px clamp(20px,5vw,64px) 110px}
+h1,h2{font-size:clamp(36px,5.8vw,76px);max-width:14ch}
+.lead{margin-top:20px;font-size:clamp(17px,1.7vw,22px);color:var(--ink-2);max-width:42ch}
 
-.avatar{position:fixed;right:clamp(12px,6vw,96px);bottom:0;z-index:1;height:min(52vh,470px);width:auto;
-  filter:drop-shadow(0 20px 34px rgba(0,0,0,.4));opacity:0;transform:translateY(30px);
-  transition:opacity 1s ease .6s,transform 1s cubic-bezier(.22,1,.36,1) .6s}
-.ready .avatar{opacity:1;transform:none}
-@media (max-width:700px){
-  .avatar{top:max(24px,env(safe-area-inset-top));bottom:auto;right:0;height:min(32vh,250px);
-    -webkit-mask-image:linear-gradient(#000 60%,transparent 92%);mask-image:linear-gradient(#000 60%,transparent 92%)}
-  .bg::after{background:linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,.1) 60%,rgba(0,0,0,.15))}
+/* each scene's parts ease in when it becomes active */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s var(--ease)}
+.scene.on .rv{opacity:1;transform:none}
+.scene.on .rv:nth-child(2){transition-delay:.12s}
+.scene.on .rv:nth-child(3){transition-delay:.24s}
+.scene.on .rv:nth-child(4){transition-delay:.36s}
+.scene.on .rv:nth-child(5){transition-delay:.48s}
+
+/* the question that leads to the next scene */
+.next{display:inline-flex;align-items:center;gap:10px;margin-top:36px;height:52px;padding:0 24px;border-radius:999px;border:0;
+  background:var(--ink);color:var(--bg);font-size:16px;font-weight:600;transition:background .2s,transform .2s var(--ease)}
+.next:hover{background:var(--accent);transform:translateX(3px)}
+.next svg{width:18px;height:18px}
+
+/* film scenes */
+.film video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 1.6s ease}
+.film video.show{opacity:1}
+.film::after{content:"";position:absolute;inset:0;z-index:1;
+  background:linear-gradient(90deg,rgba(0,0,0,.74) 0%,rgba(0,0,0,.38) 55%,rgba(0,0,0,.18)),linear-gradient(0deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,0) 30%)}
+
+/* quieter footage behind the content-heavy scenes */
+.film.dim::after{background:linear-gradient(90deg,rgba(14,14,13,.9) 0%,rgba(14,14,13,.72) 60%,rgba(14,14,13,.55)),linear-gradient(0deg,rgba(0,0,0,.5),rgba(0,0,0,0) 30%)}
+.film.dim .chapter{background:rgba(23,23,22,.62);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+
+/* the four disconnected systems */
+.silos{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.silos span{display:inline-flex;align-items:center;gap:9px;padding:9px 15px;border-radius:10px;font-size:15px;font-weight:500;
+  background:rgba(0,0,0,.45);border:1px solid var(--line);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.silos i{width:9px;height:9px;border-radius:50%}
+.silos span:nth-child(2){transform:translateY(10px)}
+.silos span:nth-child(3){transform:translateY(-6px)}
+.silos span:nth-child(4){transform:translateY(14px)}
+
+/* me + graph */
+.split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(28px,5vw,72px);align-items:center}
+@media (max-width:860px){.split{grid-template-columns:1fr}}
+.me{display:flex;align-items:flex-end;gap:16px;margin-bottom:14px}
+.me img{width:120px;height:auto;flex:none}
+.me .who{font-size:15px;color:var(--ink-3);padding-bottom:10px}
+.me .who b{display:block;font-size:17px;font-weight:600;color:var(--ink)}
+.graph{margin:0}
+.graph svg{width:100%;height:auto;display:block;overflow:visible;max-height:56vh}
+.graph .box{fill:rgba(255,255,255,.03);stroke:var(--line)}
+.graph .sys{font-size:13px;font-weight:600;fill:var(--ink-3)}
+.graph .lbl{font-size:13px;fill:var(--ink-2)}
+.graph .edge{fill:none;stroke-width:1.6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:.85}
+.graph .hub circle{fill:var(--ink)}
+.graph .hub text{font-size:13px;font-weight:700;fill:var(--bg)}
+.graph .hub{transform-box:fill-box;transform-origin:center;transform:scale(0);cursor:grab;transition:transform .7s cubic-bezier(.34,1.56,.64,1) .3s}
+.scene.on .graph .hub{transform:none}
+.scene.on .graph .edge{stroke-dashoffset:0;transition:stroke-dashoffset 1s cubic-bezier(.65,0,.35,1)}
+.graph figcaption{font-size:13px;color:var(--ink-3);margin-top:10px}
+
+/* results */
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,40px);margin-top:44px;max-width:1000px}
+@media (max-width:760px){.stats{grid-template-columns:1fr;gap:22px;margin-top:30px}}
+.stat{border-top:1px solid var(--line);padding-top:18px}
+.stat b{display:block;font-size:clamp(28px,3.4vw,44px);font-weight:700;letter-spacing:-.03em;line-height:1.05;color:var(--accent)}
+.stat span{display:block;margin-top:10px;color:var(--ink-2);font-size:16px}
+.stat small{display:block;margin-top:4px;color:var(--ink-3);font-size:13.5px}
+
+/* interactive graph */
+.graph .node{cursor:grab;transition:opacity .25s}
+.graph .node:active{cursor:grabbing}
+.graph .node circle{stroke:var(--bg);stroke-width:3;transition:r .2s}
+.graph .node:hover circle,.graph .node.on circle{r:10}
+.graph.focus .node,.graph.focus .edge{opacity:.18}
+.graph.focus .node.on,.graph.focus .edge.on{opacity:1}
+.graph .edge.on{stroke-width:3}
+.graph .hub{cursor:grab}
+.asks{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.asks button{border:1px solid var(--line);background:none;border-radius:999px;padding:7px 13px;font-size:13.5px;color:var(--ink-2);transition:border-color .2s,color .2s,background .2s}
+.asks button:hover{border-color:rgba(255,255,255,.4);color:var(--ink)}
+.asks button[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.graph figcaption b{color:var(--ink);font-weight:600}
+
+/* what I do: industries */
+.inds{display:flex;flex-wrap:wrap;gap:6px;margin-top:22px}
+.inds button{border:1px solid var(--line);background:none;border-radius:999px;padding:7px 14px;font-size:14px;font-weight:500;color:var(--ink-2);transition:background .2s,color .2s,border-color .2s}
+.inds button:hover{border-color:rgba(255,255,255,.4);color:var(--ink)}
+.inds button[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.case{margin-top:16px;background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:18px 20px;max-width:520px}
+.case p{font-size:15.5px;color:var(--ink-2);line-height:1.45}
+.case p + p{margin-top:8px}
+.case p span{display:block;font-size:12px;font-weight:600;color:var(--ink-3);letter-spacing:.02em;margin-bottom:2px}
+.case .nums{display:flex;gap:26px;margin-top:14px}
+.case .nums b{display:block;font-size:22px;font-weight:700;letter-spacing:-.02em;color:var(--accent);line-height:1.1}
+.case .nums small{display:block;font-size:13px;color:var(--ink-3);margin-top:3px}
+.case .at{margin-top:12px!important;font-size:12.5px!important;color:var(--ink-3)!important}
+.case.swap{animation:swap .45s var(--ease)}
+@media (max-width:760px){.case .nums{gap:18px}}
+#what h2{font-size:clamp(34px,4.2vw,56px);max-width:none}
+#what .lead{margin-top:12px;font-size:clamp(16px,1.4vw,19px)}
+#what .me{margin-bottom:10px}
+#what .me img{width:84px}
+#what .next{margin-top:20px}
+#what .wrap{padding-top:76px}
+
+/* contact under the path */
+.talk-row{margin-top:22px}
+.talk-row p{font-size:17px;font-weight:600}
+.talk-row .links{margin-top:12px}
+.talk-row .links a{height:44px;padding:0 18px;font-size:15px}
+@media (max-width:760px){.quick a:not(.r){display:none}.top{background:rgba(14,14,13,.92);padding-top:14px;padding-bottom:14px}}
+
+/* my path: an evolution tree, Darwin-style */
+.path-ui{display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:clamp(24px,4vw,56px);margin-top:26px;align-items:center}
+@media (max-width:760px){.path-ui{grid-template-columns:1fr;gap:14px;margin-top:14px}}
+.tree{margin:0}
+.tree svg{width:100%;height:auto;max-height:58vh;display:block;overflow:visible}
+@media (max-width:760px){.tree svg{max-height:40vh}}
+.tree .limb{fill:none;stroke:rgba(255,255,255,.28);stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1}
+.scene.on .tree .limb{stroke-dashoffset:0;transition:stroke-dashoffset 1.1s cubic-bezier(.65,0,.35,1)}
+.tree .step{cursor:pointer;outline:none}
+.tree .step circle{fill:var(--bg);stroke:var(--ink-3);stroke-width:2.5;transition:r .2s,fill .2s,stroke .2s}
+.tree .step text{font-size:14px;font-weight:500;fill:var(--ink-3);transition:fill .2s}
+.tree .step:hover circle,.tree .step:focus-visible circle{stroke:var(--ink)}
+.tree .step:hover text,.tree .step:focus-visible text{fill:var(--ink)}
+.tree .step[aria-selected="true"] circle{fill:var(--accent);stroke:var(--accent);r:11}
+.tree .step[aria-selected="true"] text{fill:var(--ink);font-weight:600}
+.tree figcaption{font-size:13px;color:var(--ink-3);margin-top:8px}
+.chapter{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:clamp(22px,3vw,36px);min-height:220px}
+.chapter .where{font-size:14px;font-weight:600;color:var(--accent)}
+.chapter h3{font-size:clamp(24px,2.6vw,34px);margin:10px 0 12px;letter-spacing:-.02em;line-height:1.15}
+.chapter p{color:var(--ink-2);font-size:17px;max-width:52ch}
+.chapter.swap{animation:swap .45s var(--ease)}
+@keyframes swap{from{opacity:0;transform:translateY(8px)}}
+
+/* talk */
+.talk .wrap{display:flex;align-items:flex-end;justify-content:space-between;gap:30px}
+.talk img{height:min(52vh,420px);width:auto;flex:none;margin-bottom:-110px}
+@media (max-width:760px){.talk .wrap{flex-direction:column;align-items:flex-start}.talk img{height:200px;align-self:flex-end;margin:-10px 0 -110px}}
+.links{display:flex;flex-wrap:wrap;gap:12px;margin-top:32px}
+.links a{display:inline-flex;align-items:center;height:50px;padding:0 22px;border-radius:999px;font-size:16px;font-weight:600;text-decoration:none;
+  border:1px solid rgba(255,255,255,.3);transition:background .2s,border-color .2s,color .2s}
+.links a:hover{border-color:#fff}
+.links a.primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.links a.primary:hover{background:var(--accent);border-color:var(--accent)}
+
+/* tabs along the bottom */
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;justify-content:center;gap:4px;padding:14px 16px calc(14px + env(safe-area-inset-bottom));
+  background:linear-gradient(0deg,rgba(0,0,0,.6),rgba(0,0,0,0));overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;border:0;background:none;padding:8px 14px;border-radius:999px;font-size:14px;font-weight:500;color:var(--ink-3);transition:color .2s,background .2s}
+.tabs button:hover{color:var(--ink)}
+.tabs button[aria-current="true"]{color:var(--ink);background:rgba(255,255,255,.12)}
+@media (max-width:760px){.tabs{justify-content:flex-start;background:rgba(14,14,13,.94);border-top:1px solid var(--line)}}
+/* headings take focus when a scene opens (for screen readers); no ring needed */
+h1:focus,h2:focus{outline:none}
+
+@media (prefers-reduced-motion:reduce){
+  .scene,.rv,.graph .edge,.graph .hub,.next{transition:none!important}
+  .graph .edge{stroke-dashoffset:0}.graph .hub{transform:none}.chapter.swap{animation:none}
 }
 </style>
 </head>
 <body>
-<div class="bg" id="bg" aria-hidden="true"></div>
 
-<img class="avatar" src="assets/avatar.webp" alt="" width="1371" height="1147" decoding="async">
+<header class="top">
+  <a href="#why" data-go="0">Preethu Nath Manjunath</a>
+  <nav class="quick" aria-label="Contact">
+    <a href="mailto:preethunath@gmail.com">Email</a>
+    <a href="https://www.linkedin.com/in/preethu-manjunath-78274417a/">LinkedIn</a>
+    <a class="r" href="resume.html">Résumé</a>
+  </nav>
+</header>
 
 <main>
-  <h1>Preethu Nath Manjunath</h1>
-  <p>Applied AI engineer in Seattle. I build knowledge graphs for energy.</p>
-  <nav aria-label="Contact">
-    <a href="mailto:preethunath@gmail.com">Email</a>
-    <a href="https://linkedin.com/in/preethu-nath-manjunath">LinkedIn</a>
-    <a href="https://github.com/preethu-manjunath">GitHub</a>
-    <a href="resume.html">Résumé</a>
-  </nav>
+
+<section class="scene film" id="why" aria-label="Why">
+  <video class="show" data-src="https://assets.mixkit.co/videos/20822/20822-720.mp4" muted loop playsinline preload="auto" aria-hidden="true"></video>
+  <video data-src="https://assets.mixkit.co/videos/48353/48353-720.mp4" muted loop playsinline preload="none" aria-hidden="true"></video>
+  <div class="wrap">
+    <h1 class="rv">Oil &amp; gas. Data centers. AI, AI, AI.</h1>
+    <p class="lead rv">Everyone's talking about it. AI runs on power from energy companies, and their data is scattered across systems that don't talk to each other.</p>
+    <div class="silos rv" aria-label="Separate systems">
+      <span><i style="background:var(--ops)"></i>Operations</span>
+      <span><i style="background:var(--maint)"></i>Maintenance</span>
+      <span><i style="background:var(--assets)"></i>Assets</span>
+      <span><i style="background:var(--fin)"></i>Finance</span>
+    </div>
+    <button class="next rv" type="button" data-next>But who actually implements it? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+  </div>
+</section>
+
+<section class="scene" id="what" aria-label="What I do">
+  <div class="wrap split">
+    <div>
+      <div class="me rv">
+        <img src="assets/avatar.webp" alt="Illustrated avatar of Preethu, waving" width="1371" height="1147">
+        <div class="who"><b>Hi, I'm Preethu.</b>Applied AI engineer · Seattle</div>
+      </div>
+      <h2 class="rv">I do. In any industry.</h2>
+      <p class="lead rv">Give me a messy, real-world workflow. I connect the data, build the AI, and ship something people use.</p>
+      <div class="inds rv" role="tablist" aria-label="Industries" id="inds"></div>
+      <div class="case rv" id="case" role="tabpanel" aria-live="polite"></div>
+      <button class="next rv" type="button" data-next>How did you get here? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+    </div>
+    <figure class="graph rv">
+      <svg viewBox="0 0 600 440" role="img" id="gsvg" aria-label="The workflow for the selected industry: four sources connected through one hub.">
+        <g id="boxes"></g><g id="edges"></g><g id="nodes"></g>
+      </svg>
+      <div class="asks" id="asks" role="group" aria-label="Ask the graph"></div>
+      <figcaption id="graphCap"></figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="scene film dim" id="path" aria-label="My path">
+  <video class="show" data-src="https://assets.mixkit.co/videos/51777/51777-720.mp4" muted loop playsinline preload="none" aria-hidden="true"></video>
+  <div class="wrap">
+    <h2 class="rv" style="max-width:none">From Ohm's law to AI.</h2>
+    <div class="path-ui rv">
+      <figure class="tree">
+        <svg id="tree" viewBox="0 0 440 530" role="tablist" aria-label="My career as an evolution tree, from root to now"></svg>
+        <figcaption>Like Darwin's tree: each step grew out of the last. Click a branch.</figcaption>
+      </figure>
+      <div>
+        <div class="chapter" id="chapter" role="tabpanel" aria-live="polite"></div>
+        <div class="talk-row">
+          <p>Like what you see? Let's talk.</p>
+          <div class="links">
+            <a class="primary" href="mailto:preethunath@gmail.com">Email me</a>
+            <a href="https://www.linkedin.com/in/preethu-manjunath-78274417a/">LinkedIn</a>
+            <a href="https://github.com/preethu-manjunath">GitHub</a>
+            <a href="resume.html">Résumé</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 </main>
+
+<nav class="tabs" id="tabs" aria-label="Story"></nav>
 
 <script>
 (function(){
-  // Real footage (Mixkit, free licence): oil field → power lines → data center → wind farm.
-  var CLIPS = [48353, 28351, 20822, 51777].map(function(id){ return "https://assets.mixkit.co/videos/" + id + "/" + id + "-720.mp4"; });
-  var HOLD = 8000;
+  "use strict";
   var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  var c = navigator.connection, lite = reduced || (c && (c.saveData || /2g/.test(c.effectiveType || "")));
-  var bg = document.getElementById("bg");
+  var scenes = [].slice.call(document.querySelectorAll(".scene"));
+  var NAMES = ["Why", "What I do", "My path"];
 
-  var vids = (lite ? CLIPS.slice(0, 1) : CLIPS).map(function(src, i){
-    var v = document.createElement("video");
-    v.muted = true; v.playsInline = true; v.loop = true;
-    v.setAttribute("muted", ""); v.setAttribute("playsinline", "");
-    v.preload = i === 0 ? "auto" : "none";
-    v.src = src; bg.appendChild(v); return v;
+  /* ── my path, in my words ── */
+  var CHAPTERS = [
+    ["Electrical engineering", "I learned to think in systems.", "Ohm's law, control systems, signal processing. Change one part of a system and something else moves with it."],
+    ["France", "Messy data can change real decisions.", "On a smart-energy project, I turned messy building-sensor logs into simple charts. The facilities team used them to change their HVAC schedule and saved money. That pulled me from circuits into data."],
+    ["Hexaware", "A model only matters if the plumbing is solid.", "A loan-default model at 93% recall, with daily pipelines and monthly retraining so it wouldn't drift."],
+    ["Deloitte", "Ground your AI in sources.", "Risk monitoring over 1,000+ news articles a day on AWS, with answers that cite their sources. About two hours of manual triage saved every day."],
+    ["CU Boulder · Honda", "Make results easy to ask about and trust.", "I led a team predicting vehicle recalls at 87% precision, then let managers ask the data questions in plain English."],
+    ["CodeModulo", "Speed is a feature.", "By changing how we called Claude and LLaMA, our support chatbot answered about 30% faster."],
+    ["KOBEYO", "Less copy-pasting, more talking to people.", "A multi-agent RAG platform for job matching. 98%+ of job descriptions parsed cleanly, and the top-10 matches got 15–25% better."],
+    ["Data Squared · now", "Connecting energy data.", "Knowledge graphs that link an oil and gas company's operations, maintenance, assets and finance."]
+  ];
+  var ns = "http://www.w3.org/2000/svg";
+  function el(tag, a, parent){ var e = document.createElementNS(ns, tag); for (var k in a) e.setAttribute(k, a[k]); parent.appendChild(e); return e; }
+
+  /* ── my path as an evolution tree: root at the bottom, now at the top ── */
+  var tree = document.getElementById("tree"), chapterEl = document.getElementById("chapter");
+  var TREE = [ // [x, y, short label, label side]
+    [220, 500, "Electrical engineering", "below"],
+    [110, 430, "France", "left"],
+    [330, 368, "Hexaware", "right"],
+    [100, 305, "Deloitte", "left"],
+    [340, 242, "Honda · CU Boulder", "right"],
+    [110, 180, "CodeModulo", "left"],
+    [330, 118, "KOBEYO", "right"],
+    [220, 42,  "Data Squared · now", "above"]
+  ];
+  el("path", { d:"M220 505 C 200 420, 245 330, 222 250 S 205 110, 220 42", pathLength:1, "class":"limb", "stroke-width":5 }, tree);
+  var steps = TREE.map(function(t, i){
+    if (i > 0 && i < TREE.length - 1){
+      var ty = t[1] + 34, tx = 220 + (i % 2 ? -4 : 4);
+      el("path", { d:"M" + tx + " " + ty + " Q " + ((tx + t[0]) / 2) + " " + (ty - 4) + " " + t[0] + " " + t[1], pathLength:1, "class":"limb", "stroke-width":3,
+        style:"transition-delay:" + (250 + i*110) + "ms" }, tree);
+    }
+    var g = el("g", { "class":"step", role:"tab", tabindex:"-1", id:"ch" + i, "aria-controls":"chapter" }, tree);
+    el("circle", { cx:t[0], cy:t[1], r:8 }, g);
+    var lx = t[3] === "left" ? t[0] - 16 : t[3] === "right" ? t[0] + 16 : t[0];
+    var ly = t[3] === "below" ? t[1] + 28 : t[3] === "above" ? t[1] - 18 : t[1] + 5;
+    el("text", { x:lx, y:ly, "text-anchor": t[3] === "left" ? "end" : t[3] === "right" ? "start" : "middle" }, g).textContent = t[2];
+    g.addEventListener("click", function(){ openChapter(i); });
+    return g;
+  });
+  function openChapter(i){
+    steps.forEach(function(g, k){ g.setAttribute("aria-selected", String(k === i)); g.setAttribute("tabindex", k === i ? "0" : "-1"); });
+    var c = CHAPTERS[i];
+    chapterEl.innerHTML = '<div class="where"></div><h3></h3><p></p>';
+    chapterEl.querySelector(".where").textContent = c[0];
+    chapterEl.querySelector("h3").textContent = c[1];
+    chapterEl.querySelector("p").textContent = c[2];
+    chapterEl.setAttribute("aria-labelledby", "ch" + i);
+    chapterEl.classList.remove("swap"); void chapterEl.offsetWidth; chapterEl.classList.add("swap");
+  }
+  tree.addEventListener("keydown", function(e){
+    var cur = steps.findIndex(function(g){ return g.getAttribute("aria-selected") === "true"; });
+    var d = e.key === "ArrowUp" ? 1 : e.key === "ArrowDown" ? -1 : 0;   // up the tree = forward in time
+    if (e.key === "Enter" || e.key === " "){ e.preventDefault(); return; }
+    if (!d) return;
+    e.preventDefault(); e.stopPropagation();
+    var n = Math.max(0, Math.min(steps.length - 1, cur + d)); openChapter(n); steps[n].focus();
+  });
+  openChapter(TREE.length - 1);
+
+  /* ── what I do: pick an industry, the workflow graph redraws ── */
+  // Real problems I've solved. Graph entities are a simplified illustration of each workflow.
+  var INDUSTRIES = [
+    { id:"oil", name:"Oil & gas", where:"Data Squared", hub:["Knowledge","graph"],
+      problem:"Operations, maintenance, assets and finance each kept their own data.",
+      built:"One knowledge graph across all four, plus a document loader for invoices.",
+      stats:[["6 mo → 4 wk","to connect a new system"],["Hours → seconds","to review invoices"]],
+      sys:[["Operations",[["Well"],["Production"]]],["Maintenance",[["Work order"],["Inspection"]]],["Assets",[["Equipment"],["Facility"]]],["Finance",[["Invoice"],["Vendor"]]]],
+      asks:[["Which wells cost the most to maintain?",["Well","Equipment","Work order","Invoice"]],["Did that inspection lead to a repair?",["Inspection","Work order","Invoice"]]] },
+    { id:"permit", name:"Permitting", where:"Data Squared", hub:["Permitting","analytics"],
+      problem:"Leaders couldn't see where permits were getting stuck.",
+      built:"Permitting analytics that tie applications, reviews and outcomes together.",
+      stats:[["Gaps found","in the permitting process"],["Fixes ranked","so leaders knew what to do first"]],
+      sys:[["Applications",[["Application"],["Applicant"]]],["Reviews",[["Reviewer"],["Comment"]]],["Rules",[["Regulation"],["Requirement"]]],["Outcomes",[["Decision"],["Timeline"]]]],
+      asks:[["Where do permits get stuck?",["Application","Reviewer","Requirement","Timeline"]],["Which rules cause the most rework?",["Regulation","Comment","Decision"]]] },
+    { id:"risk", name:"Finance & risk", where:"Deloitte", hub:["NLP","+ RAG"],
+      problem:"Analysts read global news by hand to spot supplier risks.",
+      built:"NLP pipelines that turn 1,000+ articles a day into risk events, with answers that cite sources.",
+      stats:[["~2 hrs/day","of manual triage saved"],["90%","accuracy on risk events"]],
+      sys:[["News",[["Article"],["Source"]]],["Suppliers",[["Supplier"],["Part"]]],["Risk",[["Risk event"],["Region"]]],["Compliance",[["Control"],["Audit"]]]],
+      asks:[["Which suppliers does this story affect?",["Article","Risk event","Supplier","Part"]],["Why was this article flagged?",["Article","Source","Control"]]] },
+    { id:"hire", name:"Hiring", where:"KOBEYO", hub:["RAG +","agents"],
+      problem:"Job posts were messy and scattered across small-business websites.",
+      built:"A multi-agent RAG platform that crawls, parses, tags skills and matches people to jobs.",
+      stats:[["98%+","of job posts parsed cleanly"],["+15–25%","better top-10 matches"]],
+      sys:[["Web",[["Career page"],["Job post"]]],["Skills",[["Skill"],["Level"]]],["People",[["Job seeker"],["Recruiter"]]],["Matching",[["Match"],["Reason"]]]],
+      asks:[["Which jobs fit this person?",["Job seeker","Skill","Job post","Match"]],["Why this match?",["Match","Reason","Job post"]]] },
+    { id:"auto", name:"Automotive", where:"Honda 99P Labs", hub:["ML +","LLM"],
+      problem:"Recall risk was buried in vehicle data nobody could easily question.",
+      built:"Recall prediction, plus a way for managers to ask the data questions in plain English.",
+      stats:[["87%","precision on recall predictions"],["90%","factual accuracy on answers"]],
+      sys:[["Vehicles",[["Model"],["Part"]]],["Reports",[["Complaint"],["Defect"]]],["Recalls",[["Recall"],["Campaign"]]],["Time",[["Quarter"],["Region"]]]],
+      asks:[["Which model spiked in Q4?",["Quarter","Complaint","Model"]],["Which parts lead to recalls?",["Part","Defect","Recall"]]] }
+  ];
+  var COLORS = ["var(--ops)", "var(--maint)", "var(--assets)", "var(--fin)"];
+  var BOX = [[20,20],[380,20],[20,290],[380,290]], SPOT = [[50,60],[150,100]];
+  var gsvg = document.getElementById("gsvg"), fig = document.querySelector(".graph"), cap = document.getElementById("graphCap");
+  var boxesG = document.getElementById("boxes"), edgesG = document.getElementById("edges"), nodesG = document.getElementById("nodes");
+  var indsEl = document.getElementById("inds"), caseEl = document.getElementById("case"), asksEl = document.getElementById("asks");
+  var hub = { x:300, y:220 }, N = {}, hubG = null, ind = null, activeAsk = -1;
+  var DEFAULT_CAP = "Drag the dots. Click one, or ask a question.";
+
+  function place(){
+    Object.keys(N).forEach(function(k){
+      var n = N[k];
+      n.g.setAttribute("transform", "translate(" + n.x + " " + n.y + ")");
+      n.line.setAttribute("x1", n.x); n.line.setAttribute("y1", n.y);
+      n.line.setAttribute("x2", hub.x); n.line.setAttribute("y2", hub.y);
+    });
+    if (hubG) hubG.setAttribute("transform", "translate(" + hub.x + " " + hub.y + ")");
+  }
+  function light(keys, text){
+    fig.classList.toggle("focus", !!keys);
+    Object.keys(N).forEach(function(k){
+      var on = !!keys && keys.indexOf(k) >= 0;
+      N[k].g.classList.toggle("on", on); N[k].line.classList.toggle("on", on);
+    });
+    if (text !== undefined) cap.innerHTML = text; else if (!keys) cap.textContent = DEFAULT_CAP;
+  }
+  function clearAsk(){ activeAsk = -1; [].forEach.call(asksEl.children, function(b){ b.setAttribute("aria-pressed", "false"); }); light(null); }
+
+  function toSvg(e){ var pt = gsvg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; return pt.matrixTransform(gsvg.getScreenCTM().inverse()); }
+  function draggable(target, obj, onClick){
+    var drag = null;
+    target.addEventListener("pointerdown", function(e){
+      var p = toSvg(e); drag = { dx:obj.x - p.x, dy:obj.y - p.y, moved:false, sx:e.clientX, sy:e.clientY };
+      target.setPointerCapture(e.pointerId); e.preventDefault();
+    });
+    target.addEventListener("pointermove", function(e){
+      if (!drag) return;
+      if (Math.abs(e.clientX - drag.sx) + Math.abs(e.clientY - drag.sy) > 4) drag.moved = true;
+      if (!drag.moved) return;
+      var p = toSvg(e);
+      obj.x = Math.max(10, Math.min(590, p.x + drag.dx)); obj.y = Math.max(10, Math.min(430, p.y + drag.dy)); place();
+    });
+    target.addEventListener("pointerup", function(){ if (drag && !drag.moved && onClick) onClick(); drag = null; });
+    target.addEventListener("keydown", function(e){ if ((e.key === "Enter" || e.key === " ") && onClick){ e.preventDefault(); onClick(); } });
+  }
+
+  function drawGraph(d){
+    boxesG.innerHTML = ""; edgesG.innerHTML = ""; nodesG.innerHTML = ""; N = {}; hub = { x:300, y:220 };
+    if (hubG) hubG.remove();
+    d.sys.forEach(function(s, i){
+      var bx = BOX[i][0], by = BOX[i][1];
+      el("rect", { x:bx, y:by, width:200, height:130, rx:14, "class":"box" }, boxesG);
+      el("text", { x:bx + 14, y:by + 22, "class":"sys" }, boxesG).textContent = s[0];
+      s[1].forEach(function(n, k){
+        var name = n[0], x = bx + SPOT[k][0], y = by + SPOT[k][1];
+        var line = el("line", { pathLength:1, "class":"edge", stroke:COLORS[i], style:"stroke-dashoffset:1;transition-delay:" + (Object.keys(N).length*70) + "ms" }, edgesG);
+        var g = el("g", { "class":"node", tabindex:"0", role:"button", "aria-label": name + " (" + s[0] + ")" }, nodesG);
+        el("circle", { cx:0, cy:0, r:8, fill:COLORS[i] }, g);
+        el("text", { x:0, y:24, "text-anchor":"middle", "class":"lbl" }, g).textContent = name;
+        var o = { x:x, y:y, g:g, line:line, sys:s[0], mate:s[1][1-k][0] };
+        N[name] = o;
+        draggable(g, o, function(){
+          clearAsk();
+          light([name, o.mate], "<b>" + name + "</b> lives in " + o.sys + ". Through the graph, it's one hop from everything else.");
+        });
+      });
+    });
+    hubG = el("g", { tabindex:"0", role:"button", "aria-label":"Hub. Click to reset." }, gsvg);
+    var pop = el("g", { "class":"hub" }, hubG);
+    el("circle", { cx:0, cy:0, r:48 }, pop);
+    el("text", { x:0, y:-4, "text-anchor":"middle" }, pop).textContent = d.hub[0];
+    el("text", { x:0, y:13, "text-anchor":"middle" }, pop).textContent = d.hub[1];
+    draggable(hubG, hub, clearAsk);
+    place();
+    // draw the lines in, one after another
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){
+      [].forEach.call(edgesG.children, function(l){ l.style.strokeDashoffset = ""; });
+    }); });
+  }
+  gsvg.addEventListener("click", function(e){ if (e.target === gsvg || e.target.classList.contains("box")) clearAsk(); });
+
+  function esc(t){ return t.replace(/[&<>]/g, function(c){ return { "&":"&amp;", "<":"&lt;", ">":"&gt;" }[c]; }); }
+  function openIndustry(i){
+    ind = INDUSTRIES[i];
+    [].forEach.call(indsEl.children, function(b, k){ b.setAttribute("aria-selected", String(k === i)); b.tabIndex = k === i ? 0 : -1; });
+    caseEl.innerHTML =
+      '<p class="prob"><span>Problem</span>' + esc(ind.problem) + '</p>' +
+      '<p class="built"><span>What I built</span>' + esc(ind.built) + '</p>' +
+      '<div class="nums">' + ind.stats.map(function(s){ return '<div><b>' + esc(s[0]) + '</b><small>' + esc(s[1]) + '</small></div>'; }).join("") + '</div>' +
+      '<p class="at">' + esc(ind.where) + '</p>';
+    caseEl.classList.remove("swap"); void caseEl.offsetWidth; caseEl.classList.add("swap");
+    activeAsk = -1;
+    asksEl.innerHTML = "";
+    ind.asks.forEach(function(a, k){
+      var b = document.createElement("button"); b.type = "button"; b.textContent = a[0]; b.setAttribute("aria-pressed", "false");
+      b.addEventListener("click", function(){
+        var on = activeAsk !== k; clearAsk();
+        if (on){ activeAsk = k; b.setAttribute("aria-pressed", "true"); light(a[1], esc(a[1].join(" → ")) + ". <b>One question, every system.</b>"); }
+      });
+      asksEl.appendChild(b);
+    });
+    drawGraph(ind); cap.textContent = DEFAULT_CAP; fig.classList.remove("focus");
+  }
+  INDUSTRIES.forEach(function(d, i){
+    var b = document.createElement("button");
+    b.type = "button"; b.setAttribute("role", "tab"); b.textContent = d.name;
+    b.addEventListener("click", function(){ openIndustry(i); });
+    indsEl.appendChild(b);
+  });
+  indsEl.addEventListener("keydown", function(e){
+    var cur = [].findIndex.call(indsEl.children, function(b){ return b.getAttribute("aria-selected") === "true"; });
+    var d = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0; if (!d) return;
+    e.preventDefault(); e.stopPropagation();
+    var n = (cur + d + INDUSTRIES.length) % INDUSTRIES.length; openIndustry(n); indsEl.children[n].focus();
+  });
+  openIndustry(0);
+
+  /* ── tabs ── */
+  var tabs = document.getElementById("tabs");
+  NAMES.forEach(function(n, i){
+    var b = document.createElement("button");
+    b.type = "button"; b.textContent = n;
+    b.addEventListener("click", function(){ go(i); });
+    tabs.appendChild(b);
   });
 
-  var cur = 0;
-  function show(i){
-    var v = vids[i];
-    var next = vids[(i + 1) % vids.length];
-    if (next !== v) next.preload = "auto";          // warm up the next clip while this one plays
-    var p = reduced ? Promise.resolve() : v.play();
-    (p && p.catch ? p : Promise.resolve()).catch(function(){}).then(function(){
-      vids.forEach(function(o){ o.classList.toggle("on", o === v); });
-      setTimeout(function(){ vids.forEach(function(o){ if (o !== v) o.pause(); }); }, 2400);
-    });
+  /* ── videos: only the active scene's clip loads and plays ── */
+  var c = navigator.connection, lite = reduced || (c && (c.saveData || /2g/.test(c.effectiveType || "")));
+  scenes.forEach(function(s){
+    [].forEach.call(s.querySelectorAll("video"), function(v){ v.src = lite ? v.dataset.src + "#t=2" : v.dataset.src; });
+  });
+  function playShown(s){
+    var v = s.querySelector("video.show"); if (!v || lite) return;
+    v.preload = "auto"; var p = v.play(); if (p && p.catch) p.catch(function(){});
   }
-  function start(){ show(0); document.body.classList.add("ready"); }
-  vids[0].addEventListener("loadeddata", start, { once:true });
-  setTimeout(function(){ document.body.classList.add("ready"); }, 1500);
+  // scenes with more than one clip cross-fade between them
+  setInterval(function(){
+    if (document.hidden || lite || cur < 0) return;
+    var vs = scenes[cur].querySelectorAll("video"); if (vs.length < 2) return;
+    var k = [].findIndex.call(vs, function(v){ return v.classList.contains("show"); }), n = vs[(k + 1) % vs.length];
+    n.preload = "auto"; var p = n.play(); if (p && p.catch) p.catch(function(){});
+    n.classList.add("show"); vs[k].classList.remove("show");
+    setTimeout(function(){ if (!vs[k].classList.contains("show")) vs[k].pause(); }, 1700);
+  }, 7000);
 
-  if (vids.length > 1) setInterval(function(){
-    if (document.hidden) return;
-    cur = (cur + 1) % vids.length; show(cur);
-  }, HOLD);
+  /* ── moving between scenes ── */
+  var cur = -1;
+  function go(i, fromHash){
+    i = Math.max(0, Math.min(scenes.length - 1, i));
+    if (i === cur) return;
+    scenes.forEach(function(s, k){
+      var on = k === i;
+      s.classList.toggle("on", on);
+      s.setAttribute("aria-hidden", String(!on));
+      s.inert = !on;
+      if (on) playShown(s); else [].forEach.call(s.querySelectorAll("video"), function(v){ v.pause(); });
+    });
+    // warm up the next film clip
+    var nv = scenes[i+1] && scenes[i+1].querySelector("video.show"); if (nv && !lite) nv.preload = "auto";
+    var alt = scenes[i].querySelectorAll("video")[1]; if (alt && !lite) alt.preload = "auto";
+    [].forEach.call(tabs.children, function(b, k){ b.setAttribute("aria-current", String(k === i)); });
+    tabs.children[i].scrollIntoView({ block:"nearest", inline:"center", behavior: reduced ? "auto" : "smooth" });
+    cur = i;
+    if (!fromHash) history.replaceState(null, "", "#" + scenes[i].id);
+    var focusTarget = scenes[i].querySelector("h1,h2"); if (focusTarget && fromHash !== "load"){ focusTarget.tabIndex = -1; focusTarget.focus({ preventScroll:true }); }
+  }
+  document.querySelectorAll("[data-next]").forEach(function(b){ b.addEventListener("click", function(){ go(cur + 1); }); });
+  document.querySelector("[data-go]").addEventListener("click", function(e){ e.preventDefault(); go(0); });
+  addEventListener("keydown", function(e){
+    if (e.target.closest && e.target.closest("input,textarea")) return;
+    if (e.key === "ArrowRight" || e.key === "PageDown"){ e.preventDefault(); go(cur + 1); }
+    if (e.key === "ArrowLeft"  || e.key === "PageUp"){ e.preventDefault(); go(cur - 1); }
+  });
+  addEventListener("hashchange", function(){
+    var k = scenes.findIndex(function(s){ return "#" + s.id === location.hash; }); if (k >= 0) go(k, true);
+  });
+  var start = scenes.findIndex(function(s){ return "#" + s.id === location.hash; });
+  go(start >= 0 ? start : 0, "load");
 })();
 </script>
 </body>
