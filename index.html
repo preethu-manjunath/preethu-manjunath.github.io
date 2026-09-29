@@ -69,6 +69,22 @@ canvas{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:
   .figs{gap:20px}
 }
 
+/* avatar guide: waves hello on the first scene and goodbye on the last */
+.avatar{position:fixed;right:170px;bottom:0;z-index:4;height:min(46vh,440px);width:auto;pointer-events:none;
+  opacity:0;transform:translateY(40px);transition:opacity .9s ease,transform .9s cubic-bezier(.22,1,.36,1);
+  filter:drop-shadow(0 18px 30px rgba(0,0,0,.35))}
+.avatar.on{opacity:1;transform:none}
+@media (prefers-reduced-motion:no-preference){
+  .avatar.on{animation:bob 5s ease-in-out 1s infinite}
+}
+@keyframes bob{50%{transform:translateY(-6px)}}
+@media (max-width:640px){
+  /* phones: the sky is the empty part of the frame, so the guide lives up there */
+  .avatar{top:70px;bottom:auto;right:0;height:min(30vh,240px);
+    -webkit-mask-image:linear-gradient(#000 60%,transparent 92%);mask-image:linear-gradient(#000 60%,transparent 92%)}
+  @keyframes bob{50%{transform:translateY(-4px)}}
+}
+
 /* loader */
 .loader{position:fixed;inset:0;z-index:10;background:#1a1712;display:grid;place-items:center;transition:opacity 1.2s ease,visibility 1.2s}
 .loader.done{opacity:0;visibility:hidden}
@@ -87,6 +103,7 @@ canvas{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:
   <a class="link" href="resume.html">Résumé</a>
 </header>
 
+<img class="avatar" id="avatar" src="assets/avatar.webp" alt="" width="1371" height="1147" decoding="async">
 <div class="caption out" id="caption" aria-live="polite"></div>
 
 <nav class="ctrl" aria-label="Scenes">
@@ -119,7 +136,7 @@ const PH = "https://dl.polyhaven.org/file/ph-assets";
 
 /* ═════════════════════ SCENES — kept deliberately short ═════════════════════ */
 const SCENES = [
-  { kick:"Applied AI engineer · Seattle", title:"Knowledge graphs for energy.", text:"Scroll, swipe or use the arrows to look around.", h1:true },
+  { kick:"Hi, I'm Preethu · Applied AI engineer, Seattle", title:"Knowledge graphs for energy.", text:"Scroll, swipe or use the arrows to look around.", h1:true, guide:true },
   { kick:"Oil & gas · Data Squared, 2024 – now", title:"One graph for the whole field.", text:"Operations, maintenance, assets and finance, connected.",
     figs:[["6 mo → 4 wk","to integrate a new system"],["10×","faster invoice review"]] },
   { kick:"Edge AI", title:"Answers at the wellsite.", text:"Small data centers in the field catch risks on site." },
@@ -127,7 +144,7 @@ const SCENES = [
   { kick:"Data centers · KOBEYO, 2023 – 24", title:"What runs inside.", text:"RAG, agents and fine-tuned LLMs for a job-matching platform.",
     figs:[["90%+","of sourcing automated"],["50%","faster queries"]] },
   { kick:"Wind", title:"Where I started.", text:"Electrical engineering, then data science." },
-  { kick:"Everything connects", title:"Let's talk.", text:"Open to applied AI and solutions-architecture roles.", contact:true },
+  { kick:"Everything connects", title:"Let's talk.", text:"Open to applied AI and solutions-architecture roles.", contact:true, guide:true },
 ];
 
 /* ═════════════════════ RENDERER ═════════════════════ */
@@ -703,12 +720,13 @@ const release = () => { view.dragging = false; };
 cv.addEventListener("pointerup", release); cv.addEventListener("pointercancel", release);
 
 /* ═════════════════════ CAPTIONS & CONTROLS ═════════════════════ */
-const capEl = document.getElementById("caption");
+const capEl = document.getElementById("caption"), avatarEl = document.getElementById("avatar");
 const esc = s => s.replace(/[&<>]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;" }[c]));
 let capTimer = 0;
 function showCaption(){
   const s = SCENES[shot];
   capEl.classList.add("out");
+  avatarEl.classList.remove("on"); document.body.classList.toggle("guide", !!s.guide);
   clearTimeout(capTimer);
   capTimer = setTimeout(() => {
     const H = s.h1 ? "h1" : "h2";
@@ -716,6 +734,7 @@ function showCaption(){
       (s.figs ? `<div class="figs">${s.figs.map(([b, t]) => `<div><b>${esc(b)}</b><span>${esc(t)}</span></div>`).join("")}</div>` : "") +
       (s.contact ? `<div class="links"><a href="mailto:preethunath@gmail.com">preethunath@gmail.com</a><a href="https://linkedin.com/in/preethu-nath-manjunath">LinkedIn</a><a href="https://github.com/preethu-manjunath">GitHub</a><a href="resume.html">Résumé</a></div>` : "");
     capEl.classList.remove("out");
+    if (s.guide) avatarEl.classList.add("on");
   }, reduced ? 0 : Math.min(1400, dur*450));
 }
 document.getElementById("next").addEventListener("click", () => go(shot+1));
