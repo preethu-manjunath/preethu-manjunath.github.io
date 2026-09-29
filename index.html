@@ -3,792 +3,105 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Preethu Nath Manjunath · Knowledge graphs for energy</title>
-<meta name="description" content="Preethu Nath Manjunath, applied AI engineer in Seattle. Knowledge graphs and AI for oil and gas, power and data centers.">
+<title>Preethu Nath Manjunath · Applied AI engineer</title>
+<meta name="description" content="Applied AI engineer in Seattle. I build knowledge graphs for energy.">
 <meta name="author" content="Preethu Nath Manjunath">
-<meta name="theme-color" content="#1a1712">
+<meta name="theme-color" content="#14120f">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Preethu Nath Manjunath · Knowledge graphs for energy">
-<meta property="og:description" content="Applied AI engineer. Knowledge graphs and AI for oil and gas, power and data centers.">
+<meta property="og:title" content="Preethu Nath Manjunath · Applied AI engineer">
+<meta property="og:description" content="I build knowledge graphs for energy.">
 <meta property="og:url" content="https://preethu-manjunath.github.io/">
-<meta property="og:image" content="https://preethu-manjunath.github.io/assets/preethu.jpg">
+<meta property="og:image" content="https://preethu-manjunath.github.io/assets/avatar.webp">
 <link rel="canonical" href="https://preethu-manjunath.github.io/">
-<link rel="preconnect" href="https://dl.polyhaven.org" crossorigin>
+<link rel="preconnect" href="https://assets.mixkit.co">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400&display=swap" rel="stylesheet">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%231c1b19'/><text x='50' y='69' font-size='54' font-family='Georgia,serif' fill='%23faf9f6' text-anchor='middle'>PM</text></svg>">
-<script type="importmap">
-{ "imports": {
-  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
-  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
-} }
-</script>
 <style>
-:root{
-  --ink:#f4f1ea; --ink-2:rgba(244,241,234,.78); --ink-3:rgba(244,241,234,.55);
-  --serif:"Source Serif 4",Georgia,serif;
-  --sans:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-}
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;overflow:hidden;background:#1a1712;color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+html,body{margin:0;height:100%;overflow:hidden;background:#14120f;color:#f4f1ea;
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
 a{color:inherit}
-canvas{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;outline:none}
-:focus-visible{outline:2px solid #fff;outline-offset:3px;border-radius:3px}
+:focus-visible{outline:2px solid #fff;outline-offset:4px;border-radius:2px}
 
-/* soft shade so white text stays readable over bright sky */
-.shade{position:fixed;inset:0;pointer-events:none;z-index:1;
-  background:linear-gradient(180deg,rgba(0,0,0,.28),rgba(0,0,0,0) 18%,rgba(0,0,0,0) 55%,rgba(0,0,0,.5))}
+.bg{position:fixed;inset:0;overflow:hidden}
+.bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 2.2s ease}
+.bg video.on{opacity:1}
+.bg::after{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(0,0,0,.55),rgba(0,0,0,.15) 55%,rgba(0,0,0,0)),
+             linear-gradient(0deg,rgba(0,0,0,.45),rgba(0,0,0,0) 45%)}
 
-.top{position:fixed;top:0;left:0;right:0;z-index:5;display:flex;justify-content:space-between;align-items:center;padding:18px 22px;font-size:15px;text-shadow:0 1px 8px rgba(0,0,0,.4)}
-.top .name{font-weight:600;text-decoration:none}
-.top a.link{text-decoration:none;border-bottom:1px solid rgba(255,255,255,.5);padding-bottom:1px}
+main{position:fixed;left:clamp(20px,5vw,72px);bottom:clamp(28px,8vh,88px);max-width:min(620px,calc(100vw - 40px));z-index:2}
+h1{font-family:"Source Serif 4",Georgia,serif;font-weight:400;font-size:clamp(40px,6vw,76px);line-height:1;letter-spacing:-.02em;margin:0 0 16px}
+p{margin:0;font-size:clamp(17px,1.6vw,20px);line-height:1.45;color:rgba(244,241,234,.85)}
+nav{display:flex;flex-wrap:wrap;gap:10px 24px;margin-top:26px;font-size:15px}
+nav a{text-decoration:none;border-bottom:1px solid rgba(255,255,255,.45);padding-bottom:2px;transition:border-color .2s}
+nav a:hover{border-color:#fff}
 
-.caption{position:fixed;left:22px;bottom:26px;z-index:5;max-width:min(520px,calc(100vw - 44px));text-shadow:0 1px 14px rgba(0,0,0,.45);
-  transition:opacity .6s ease,transform .6s ease}
-.caption.out{opacity:0;transform:translateY(8px)}
-.caption .kick{font-size:13.5px;color:var(--ink-2);margin-bottom:8px}
-.caption h1,.caption h2{font-family:var(--serif);font-weight:400;font-size:clamp(32px,4.6vw,54px);line-height:1.05;letter-spacing:-.015em;margin:0 0 10px}
-.caption p{margin:0;font-size:16px;line-height:1.5;color:var(--ink-2)}
-.figs{display:flex;gap:28px;margin-top:16px}
-.figs div b{display:block;font-family:var(--serif);font-weight:400;font-size:28px;line-height:1.1}
-.figs div span{font-size:13px;color:var(--ink-3)}
-.links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:16px;font-size:15px}
-.links a{text-decoration:none;border-bottom:1px solid rgba(255,255,255,.5)}
-
-.ctrl{position:fixed;right:18px;bottom:22px;z-index:5;display:flex;align-items:center;gap:4px;font-size:14px;font-variant-numeric:tabular-nums;
-  background:rgba(20,18,14,.45);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:999px;padding:4px}
-.ctrl button{width:40px;height:40px;border-radius:50%;border:0;background:none;color:var(--ink);cursor:pointer;display:grid;place-items:center}
-.ctrl button:hover{background:rgba(255,255,255,.12)}
-.ctrl button:disabled{opacity:.3;cursor:default;background:none}
-.ctrl svg{width:18px;height:18px}
-.ctrl span{min-width:44px;text-align:center;color:var(--ink-2)}
-@media (max-width:640px){
-  .caption{bottom:84px;left:18px}
-  .ctrl{left:50%;right:auto;transform:translateX(-50%);bottom:18px}
-  .figs{gap:20px}
-}
-
-/* avatar guide: waves hello on the first scene and goodbye on the last */
-.avatar{position:fixed;right:170px;bottom:0;z-index:4;height:min(46vh,440px);width:auto;pointer-events:none;
-  opacity:0;transform:translateY(40px);transition:opacity .9s ease,transform .9s cubic-bezier(.22,1,.36,1);
-  filter:drop-shadow(0 18px 30px rgba(0,0,0,.35))}
-.avatar.on{opacity:1;transform:none}
-@media (prefers-reduced-motion:no-preference){
-  .avatar.on{animation:bob 5s ease-in-out 1s infinite}
-}
-@keyframes bob{50%{transform:translateY(-6px)}}
-@media (max-width:640px){
-  /* phones: the sky is the empty part of the frame, so the guide lives up there */
-  .avatar{top:70px;bottom:auto;right:0;height:min(30vh,240px);
+.avatar{position:fixed;right:clamp(12px,6vw,96px);bottom:0;z-index:1;height:min(52vh,470px);width:auto;
+  filter:drop-shadow(0 20px 34px rgba(0,0,0,.4));opacity:0;transform:translateY(30px);
+  transition:opacity 1s ease .6s,transform 1s cubic-bezier(.22,1,.36,1) .6s}
+.ready .avatar{opacity:1;transform:none}
+@media (max-width:700px){
+  .avatar{top:max(24px,env(safe-area-inset-top));bottom:auto;right:0;height:min(32vh,250px);
     -webkit-mask-image:linear-gradient(#000 60%,transparent 92%);mask-image:linear-gradient(#000 60%,transparent 92%)}
-  @keyframes bob{50%{transform:translateY(-4px)}}
+  .bg::after{background:linear-gradient(0deg,rgba(0,0,0,.7),rgba(0,0,0,.1) 60%,rgba(0,0,0,.15))}
 }
-
-/* loader */
-.loader{position:fixed;inset:0;z-index:10;background:#1a1712;display:grid;place-items:center;transition:opacity 1.2s ease,visibility 1.2s}
-.loader.done{opacity:0;visibility:hidden}
-.loader div{width:min(320px,70vw);text-align:center}
-.loader b{display:block;font-family:var(--serif);font-weight:400;font-size:26px;margin-bottom:6px}
-.loader span{font-size:13px;color:var(--ink-3)}
-.bar{height:2px;background:rgba(255,255,255,.12);margin-top:18px;overflow:hidden}
-.bar i{display:block;height:100%;width:0;background:var(--ink);transition:width .3s}
-.loader .err{margin-top:16px;font-size:14px;color:var(--ink-2)}
 </style>
 </head>
 <body>
-<div class="shade"></div>
-<header class="top">
-  <a class="name" href="./">Preethu Nath Manjunath</a>
-  <a class="link" href="resume.html">Résumé</a>
-</header>
+<div class="bg" id="bg" aria-hidden="true"></div>
 
-<img class="avatar" id="avatar" src="assets/avatar.webp" alt="" width="1371" height="1147" decoding="async">
-<div class="caption out" id="caption" aria-live="polite"></div>
+<img class="avatar" src="assets/avatar.webp" alt="" width="1371" height="1147" decoding="async">
 
-<nav class="ctrl" aria-label="Scenes">
-  <button id="prev" type="button" aria-label="Previous scene"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
-  <span id="count">1 / 7</span>
-  <button id="next" type="button" aria-label="Next scene"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
-</nav>
+<main>
+  <h1>Preethu Nath Manjunath</h1>
+  <p>Applied AI engineer in Seattle. I build knowledge graphs for energy.</p>
+  <nav aria-label="Contact">
+    <a href="mailto:preethunath@gmail.com">Email</a>
+    <a href="https://linkedin.com/in/preethu-nath-manjunath">LinkedIn</a>
+    <a href="https://github.com/preethu-manjunath">GitHub</a>
+    <a href="resume.html">Résumé</a>
+  </nav>
+</main>
 
-<div class="loader" id="loader">
-  <div>
-    <b>Preethu Nath Manjunath</b>
-    <span id="loadTxt">Loading the landscape…</span>
-    <div class="bar"><i id="loadBar"></i></div>
-  </div>
-</div>
+<script>
+(function(){
+  // Real footage (Mixkit, free licence): oil field → power lines → data center → wind farm.
+  var CLIPS = [48353, 28351, 20822, 51777].map(function(id){ return "https://assets.mixkit.co/videos/" + id + "/" + id + "-720.mp4"; });
+  var HOLD = 8000;
+  var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var c = navigator.connection, lite = reduced || (c && (c.saveData || /2g/.test(c.effectiveType || "")));
+  var bg = document.getElementById("bg");
 
-<script type="module">
-import * as THREE from "three";
-import { RGBELoader } from "three/addons/loaders/RGBELoader.js";
-import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-import { EffectComposer } from "three/addons/postprocessing/EffectComposer.js";
-import { RenderPass } from "three/addons/postprocessing/RenderPass.js";
-import { UnrealBloomPass } from "three/addons/postprocessing/UnrealBloomPass.js";
-import { OutputPass } from "three/addons/postprocessing/OutputPass.js";
-import { mergeGeometries } from "three/addons/utils/BufferGeometryUtils.js";
-
-const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const mobile = matchMedia("(max-width: 760px), (hover: none)").matches;
-const PH = "https://dl.polyhaven.org/file/ph-assets";
-
-/* ═════════════════════ SCENES — kept deliberately short ═════════════════════ */
-const SCENES = [
-  { kick:"Hi, I'm Preethu · Applied AI engineer, Seattle", title:"Knowledge graphs for energy.", text:"Scroll, swipe or use the arrows to look around.", h1:true, guide:true },
-  { kick:"Oil & gas · Data Squared, 2024 – now", title:"One graph for the whole field.", text:"Operations, maintenance, assets and finance, connected.",
-    figs:[["6 mo → 4 wk","to integrate a new system"],["10×","faster invoice review"]] },
-  { kick:"Edge AI", title:"Answers at the wellsite.", text:"Small data centers in the field catch risks on site." },
-  { kick:"Power", title:"AI runs on this.", text:"Data centers need energy. Energy needs better data." },
-  { kick:"Data centers · KOBEYO, 2023 – 24", title:"What runs inside.", text:"RAG, agents and fine-tuned LLMs for a job-matching platform.",
-    figs:[["90%+","of sourcing automated"],["50%","faster queries"]] },
-  { kick:"Wind", title:"Where I started.", text:"Electrical engineering, then data science." },
-  { kick:"Everything connects", title:"Let's talk.", text:"Open to applied AI and solutions-architecture roles.", contact:true, guide:true },
-];
-
-/* ═════════════════════ RENDERER ═════════════════════ */
-const renderer = new THREE.WebGLRenderer({ antialias:false, powerPreference:"high-performance" });
-renderer.setPixelRatio(Math.min(devicePixelRatio, mobile ? 1.25 : 1.6));
-renderer.setSize(innerWidth, innerHeight);
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.0;
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-document.body.prepend(renderer.domElement);
-renderer.domElement.tabIndex = 0;
-renderer.domElement.setAttribute("aria-label", "A 3D landscape: an oil field, power lines, a data center and a wind farm. Use the scene controls to move between them.");
-
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(mobile ? 50 : 36, innerWidth/innerHeight, 0.3, 6000);
-camera.position.set(0, 60, 160);
-
-const rt = new THREE.WebGLRenderTarget(1, 1, { type:THREE.HalfFloatType, samples: mobile ? 2 : 4 });
-const composer = new EffectComposer(renderer, rt);
-composer.addPass(new RenderPass(scene, camera));
-const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth, innerHeight), 0.18, 0.6, 0.92);
-composer.addPass(bloom);
-composer.addPass(new OutputPass());
-composer.setSize(innerWidth, innerHeight);
-
-/* ═════════════════════ LOADING ═════════════════════ */
-const manager = new THREE.LoadingManager();
-const loadBar = document.getElementById("loadBar"), loadTxt = document.getElementById("loadTxt");
-manager.onProgress = (_, done, total) => { loadBar.style.width = (done/total*100).toFixed(0) + "%"; };
-manager.onError = url => console.warn("failed to load", url);
-const texLoader = new THREE.TextureLoader(manager);
-const maxAniso = renderer.capabilities.getMaxAnisotropy();
-
-function pbr(id, { repeat=[1,1], color="#ffffff", rough=1, metal=null, normalScale=1 } = {}){
-  const base = `${PH}/Textures/jpg/1k/${id}/${id}_`;
-  const t = k => { const x = texLoader.load(base + k + "_1k.jpg"); x.wrapS = x.wrapT = THREE.RepeatWrapping; x.repeat.set(...repeat); x.anisotropy = maxAniso; return x; };
-  const map = t("diff"); map.colorSpace = THREE.SRGBColorSpace;
-  const arm = t("arm");
-  const m = new THREE.MeshStandardMaterial({ map, normalMap:t("nor_gl"), aoMap:arm, roughnessMap:arm, color, roughness:rough });
-  m.normalScale.set(normalScale, normalScale);
-  if (metal !== null){ m.metalnessMap = arm; m.metalness = metal; }
-  return m;
-}
-/* Poly Haven glTFs reference textures by relative path; the API tells us where they really live. */
-async function polyModel(id){
-  const files = await (await fetch(`https://api.polyhaven.com/files/${id}`)).json();
-  const g = files.gltf["1k"].gltf, inc = g.include;
-  const m = new THREE.LoadingManager();
-  m.setURLModifier(url => { for (const k in inc) if (url.endsWith("/" + k) || url.endsWith(k)) return inc[k].url; return url; });
-  manager.itemStart(id);
-  try { const gltf = await new GLTFLoader(m).loadAsync(g.url); return gltf.scene; }
-  finally { manager.itemEnd(id); }
-}
-
-/* ═════════════════════ TERRAIN ═════════════════════ */
-function hash(x, y){ const s = Math.sin(x*127.1 + y*311.7) * 43758.5453; return s - Math.floor(s); }
-function noise(x, y){
-  const ix = Math.floor(x), iy = Math.floor(y), fx = x-ix, fy = y-iy;
-  const u = fx*fx*(3-2*fx), v = fy*fy*(3-2*fy);
-  const a = hash(ix,iy), b = hash(ix+1,iy), c = hash(ix,iy+1), d = hash(ix+1,iy+1);
-  return a + (b-a)*u + (c-a)*v + (a-b-c+d)*u*v;
-}
-function fbm(x, y){ let s=0, a=1, f=1; for (let i=0;i<5;i++){ s += a*noise(x*f, y*f); a*=.5; f*=2.03; } return s/1.94; }
-const smooth = (a, b, x) => { const t = Math.min(1, Math.max(0, (x-a)/(b-a))); return t*t*(3-2*t); };
-function heightAt(x, z){
-  const d = Math.hypot(x+60, z+60);
-  const near = (fbm(x*.012, z*.012) - .5) * 1.6;                    // gentle roll in the working area
-  const far  = fbm(x*.0022+7, z*.0022+3) * 140 * smooth(420, 1400, d);   // hills toward the horizon
-  const ridge = Math.max(0, fbm(x*.004+11, z*.004) - .35) * 70 * smooth(160, 420, Math.hypot(x-360, z+240));
-  return near + far + ridge*0 + windRidge(x, z);
-}
-function windRidge(x, z){ // a low ridge for the turbines
-  const dx = (x - 380)/260, dz = (z + 280)/120;
-  return Math.max(0, 1 - dx*dx - dz*dz) * 26;
-}
-
-const groundMat = pbr("grass_path_2", { repeat:[1,1], normalScale:1.2 });
-// Break up tiling: sample the ground texture at two scales and add a slow colour drift.
-groundMat.onBeforeCompile = sh => {
-  sh.vertexShader = sh.vertexShader.replace("#include <common>", "#include <common>\nvarying vec3 vWPos;")
-    .replace("#include <worldpos_vertex>", "#include <worldpos_vertex>\nvWPos = (modelMatrix * vec4(transformed,1.0)).xyz;");
-  sh.fragmentShader = sh.fragmentShader.replace("#include <common>", `#include <common>
-varying vec3 vWPos;
-float h2(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7))) * 43758.5453); }
-float n2(vec2 p){ vec2 i=floor(p), f=fract(p); vec2 u=f*f*(3.-2.*f);
-  return mix(mix(h2(i),h2(i+vec2(1,0)),u.x), mix(h2(i+vec2(0,1)),h2(i+vec2(1,1)),u.x), u.y); }`)
-    .replace("#include <map_fragment>", `
-  vec2 wuv = vWPos.xz / 7.0;
-  vec4 c1 = texture2D(map, wuv);
-  vec4 c2 = texture2D(map, wuv * 0.173 + 0.31);
-  float m = n2(vWPos.xz * 0.012);
-  vec4 texelColor = mix(c1, c2, 0.45);
-  texelColor.rgb *= mix(vec3(0.86,0.8,0.68), vec3(1.08,1.04,0.94), m);
-  diffuseColor *= texelColor;`)
-    .replace("#include <normal_fragment_maps>", `
-  vec3 mapN = texture2D(normalMap, vWPos.xz / 7.0).xyz * 2.0 - 1.0;
-  mapN.xy *= normalScale;
-  normal = normalize(tbn * mapN);`)
-    .replace("#include <roughnessmap_fragment>", "float roughnessFactor = roughness * mix(0.85, 1.0, texture2D(roughnessMap, vWPos.xz/7.0).g);");
-};
-{
-  const size = 5200, seg = mobile ? 220 : 320;
-  const g = new THREE.PlaneGeometry(size, size, seg, seg); g.rotateX(-Math.PI/2);
-  const p = g.attributes.position;
-  for (let i=0;i<p.count;i++) p.setY(i, heightAt(p.getX(i), p.getZ(i)));
-  g.computeVertexNormals();
-  const ground = new THREE.Mesh(g, groundMat);
-  ground.receiveShadow = true;
-  scene.add(ground);
-}
-
-/* flat textured strips/pads that sit on the ground */
-function pad(mat, x, z, w, d, rot=0){
-  const g = new THREE.PlaneGeometry(w, d, Math.ceil(w/4), Math.ceil(d/4)); g.rotateX(-Math.PI/2); g.rotateY(rot);
-  const p = g.attributes.position;
-  for (let i=0;i<p.count;i++) p.setY(i, heightAt(x+p.getX(i), z+p.getZ(i)) + .05);
-  const m = new THREE.Mesh(g, mat); m.position.set(x, 0, z); m.receiveShadow = true; scene.add(m);
-  return m;
-}
-const gravel = pbr("dry_ground_rocks", { repeat:[4,4], color:"#cfc2aa" });
-gravel.polygonOffset = true; gravel.polygonOffsetFactor = -2;
-function road(ax, az, bx, bz, w=5){
-  const len = Math.hypot(bx-ax, bz-az), ang = Math.atan2(bx-ax, bz-az);
-  const m = pbr("dry_ground_rocks", { repeat:[1, len/5], color:"#cfc2aa" }); m.polygonOffset = true; m.polygonOffsetFactor = -2;
-  pad(m, (ax+bx)/2, (az+bz)/2, w, len, ang);
-}
-
-/* ═════════════════════ MATERIALS ═════════════════════ */
-const paint = pbr("green_metal_rust", { repeat:[1,2], color:"#8f9489", metal:.7 });
-const paintBeam = pbr("green_metal_rust", { repeat:[4,1], color:"#8f9489", metal:.7 });
-const rust = pbr("rusty_metal_02", { repeat:[1,1], metal:1 });
-const steel = new THREE.MeshStandardMaterial({ color:"#9aa0a3", roughness:.45, metalness:.9 });
-const darkSteel = new THREE.MeshStandardMaterial({ color:"#3a3d40", roughness:.6, metalness:.8 });
-const concrete = pbr("concrete_floor_02", { repeat:[2,2] });
-const tankMat = pbr("corrugated_iron_02", { repeat:[6,1.5], color:"#e8dcc4", metal:.6 });
-const wallMat = pbr("corrugated_iron_02", { repeat:[40,2], color:"#dfe2e3", metal:.5 });
-const wallMatShort = pbr("corrugated_iron_02", { repeat:[18,2], color:"#dfe2e3", metal:.5 });
-const roofMat = pbr("concrete_floor_02", { repeat:[12,6], color:"#b8b8b4" });
-const white = new THREE.MeshStandardMaterial({ color:"#eeeeea", roughness:.42, metalness:.05 });
-const galv = new THREE.MeshStandardMaterial({ color:"#a7abad", roughness:.55, metalness:.75 });
-const cableMat = new THREE.MeshStandardMaterial({ color:"#2a2b2c", roughness:.5, metalness:.6 });
-const insulatorMat = new THREE.MeshStandardMaterial({ color:"#5b6a5a", roughness:.3, metalness:.1 });
-
-const shadowed = o => { o.traverse(c => { if (c.isMesh){ c.castShadow = true; c.receiveShadow = true; } }); return o; };
-const M = (geo, mat, x=0, y=0, z=0, parent) => { const m = new THREE.Mesh(geo, mat); m.position.set(x,y,z); m.castShadow = m.receiveShadow = true; (parent||scene).add(m); return m; };
-const box = (w,h,d,mat,x,y,z,p) => M(new THREE.BoxGeometry(w,h,d), mat, x, y, z, p);
-const cyl = (rt,rb,h,mat,x,y,z,p,seg=20) => M(new THREE.CylinderGeometry(rt,rb,h,seg), mat, x, y, z, p);
-function strut(a, b, r, mat, parent){ // a cylinder between two points
-  const d = new THREE.Vector3().subVectors(b, a), len = d.length();
-  const m = M(new THREE.CylinderGeometry(r, r, len, 8), mat, 0,0,0, parent);
-  m.position.copy(a).addScaledVector(d, .5);
-  m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0), d.normalize());
-  return m;
-}
-const animators = [];
-
-/* ═════════════════════ PUMPJACK — real crank/pitman/beam geometry ═════════════════════ */
-function pumpjack(x, z, ry, phase, spm=7){
-  const g = new THREE.Group(); g.position.set(x, heightAt(x,z), z); g.rotation.y = ry; scene.add(g);
-  const B = new THREE.Vector3(0, 6.4, 0);          // saddle bearing
-  const L = 4.2, H = 5.8, C = new THREE.Vector3(-4.4, 2.35, 0), r = 1.25;
-  const P = Math.hypot(-L - C.x, B.y - C.y);       // pitman length at level beam
-
-  box(13.5, .7, 3.4, concrete, .8, .15, 0, g);                 // foundation
-  [-1.1, 1.1].forEach(s => box(12.5, .45, .35, paint, .6, .7, s, g)); // base skids
-  for (let i=0;i<4;i++) box(.3, .3, 2.5, paint, -4.6 + i*3.4, .7, 0, g);
-  // samson post (A-frame)
-  [-1, 1].forEach(s => {
-    strut(new THREE.Vector3(-1.4, .9, s*1.1), new THREE.Vector3(0, B.y-.2, s*.35), .16, paint, g);
-    strut(new THREE.Vector3( 1.6, .9, s*1.1), new THREE.Vector3(0, B.y-.2, s*.35), .16, paint, g);
+  var vids = (lite ? CLIPS.slice(0, 1) : CLIPS).map(function(src, i){
+    var v = document.createElement("video");
+    v.muted = true; v.playsInline = true; v.loop = true;
+    v.setAttribute("muted", ""); v.setAttribute("playsinline", "");
+    v.preload = i === 0 ? "auto" : "none";
+    v.src = src; bg.appendChild(v); return v;
   });
-  box(.6, .5, 1.2, darkSteel, 0, B.y-.1, 0, g);
-  // gear reducer, motor, belt guard
-  box(1.9, 1.9, 1.3, paint, C.x, 1.5, 0, g);
-  cyl(.42, .42, 1.1, darkSteel, C.x-2.3, 1.25, .1, g).rotation.x = Math.PI/2;
-  box(2.4, .9, .25, paint, C.x-1.2, 1.4, .72, g);
-  // crank arms + counterweights, both sides
-  const crank = new THREE.Group(); crank.position.copy(C); g.add(crank);
-  const cwShape = new THREE.Shape(); cwShape.absarc(0, 0, 1.55, -0.55, 0.55, false); cwShape.absarc(0, 0, .55, 0.55, -0.55, true);
-  const cwGeo = new THREE.ExtrudeGeometry(cwShape, { depth:.32, bevelEnabled:true, bevelSize:.04, bevelThickness:.04, bevelSegments:1 });
-  [-1, 1].forEach(s => {
-    const arm = box(2.8, .42, .22, paint, -.25, 0, s*.88, crank);
-    const cw = M(cwGeo, darkSteel, 0, 0, s*.88 + (s>0 ? .12 : -.44), crank); cw.rotation.z = Math.PI;
-  });
-  // walking beam + horsehead
-  const beam = new THREE.Group(); beam.position.copy(B); g.add(beam);
-  box(L + H - .4, .62, .5, paintBeam, (H - L)/2 - .2, .2, 0, beam);
-  const hh = new THREE.Shape();
-  hh.absarc(0, 0, H + .15, -0.42, 0.2, false);
-  hh.lineTo(Math.cos(.2)*(H-1.1), Math.sin(.2)*(H-1.1));
-  hh.absarc(0, 0, H - 1.1, 0.2, -0.3, true);
-  const hhGeo = new THREE.ExtrudeGeometry(hh, { depth:.8, bevelEnabled:true, bevelSize:.05, bevelThickness:.05, bevelSegments:1 });
-  M(hhGeo, paint, 0, 0, -.4, beam);
-  box(.9, .9, .9, paint, -L, .15, 0, beam);                       // equalizer
-  // pitman arms (updated per frame)
-  const pitmen = [-1, 1].map(s => M(new THREE.BoxGeometry(.22, 1, .22), paint, 0, 0, s*.95, g));
-  // wellhead, polished rod, bridle, carrier bar
-  const wx = H + .15;
-  cyl(.28, .28, 1.2, rust, wx, .7, 0, g); cyl(.42, .42, .25, rust, wx, 1.35, 0, g);
-  cyl(.18, .18, .8, rust, wx, 1.85, 0, g);
-  const tee = cyl(.14, .14, 1.8, rust, wx, 1.1, 0, g); tee.rotation.x = Math.PI/2;
-  const rod = M(new THREE.CylinderGeometry(.05, .05, 4.6, 8), steel, wx, 0, 0, g);
-  const carrier = box(.9, .18, .3, darkSteel, wx, 0, 0, g);
-  const bridles = [-.3, .3].map(s => M(new THREE.CylinderGeometry(.025, .025, 1, 6), darkSteel, wx, 0, s, g));
 
-  const T = new THREE.Vector3(), pin = new THREE.Vector3(), tmp = new THREE.Vector3();
-  const tail = phi => T.set(B.x - L*Math.cos(phi), B.y - L*Math.sin(phi), 0);
-  function pose(t){
-    const th = -(t * spm/60) * Math.PI*2 + phase;
-    crank.rotation.z = th;
-    pin.set(C.x + Math.cos(th)*r*-1, C.y + Math.sin(th)*r*-1, 0);
-    let lo = -.5, hi = .5;                                      // solve beam angle so the pitman keeps its length
-    for (let i=0;i<22;i++){ const mid=(lo+hi)/2; (tail(mid).distanceTo(pin) > P) === (tail(lo).distanceTo(pin) > P) ? lo = mid : hi = mid; }
-    const phi = (lo+hi)/2; beam.rotation.z = phi; tail(phi);
-    pitmen.forEach(p => {
-      tmp.subVectors(T, pin); const len = tmp.length();
-      p.position.set((T.x+pin.x)/2, (T.y+pin.y)/2, p.position.z);
-      p.scale.y = len; p.rotation.z = Math.atan2(tmp.y, tmp.x) - Math.PI/2;
-    });
-    const cy = B.y - 2.6 + (H + .15) * phi;                     // cable unwinds off the arc
-    carrier.position.y = cy;
-    rod.position.y = cy - 2.3;
-    bridles.forEach(b => { const top = B.y + .1, len = top - cy; b.position.y = cy + len/2; b.scale.y = len; });
-  }
-  pose(0);
-  animators.push(t => pose(reduced ? 0 : t));
-  return g;
-}
-
-/* ═════════════════════ TANK BATTERY ═════════════════════ */
-function tanks(x, z){
-  const y = heightAt(x, z);
-  pad(gravel, x, z, 34, 20);
-  const berm = pbr("dry_ground_rocks", { repeat:[6,1] });
-  [[0,-9.5,32,1],[0,9.5,32,1],[-15.5,0,1,19],[15.5,0,1,19]].forEach(([dx,dz,w,d]) => box(w, 1.1, d, berm, x+dx, y+.5, z+dz));
-  const g = new THREE.Group(); g.position.set(x, y, z); scene.add(g);
-  for (let i=0;i<4;i++){
-    const tx = -10.5 + i*7;
-    cyl(3.3, 3.3, 7.3, tankMat, tx, 3.65, 0, g, 40);
-    cyl(.3, 3.35, .5, tankMat, tx, 7.55, 0, g, 40);
-    cyl(.18, .18, 1.2, rust, tx+1, 8.1, 1, g);
-  }
-  box(26, .12, 1.1, metalGrate(), -.0, 7.9, -3.8, g);           // walkway
-  for (let i=0;i<14;i++) cyl(.04, .04, 1.1, galv, -12.5 + i*1.9, 8.5, -4.3, g, 6);
-  const rail = cyl(.04, .04, 26, galv, 0, 9.05, -4.3, g, 6); rail.rotation.z = Math.PI/2;
-  const stair = box(1, .12, 11, metalGrate(), 14.5, 4, -6.5, g); stair.rotation.x = -.62;
-  return g;
-}
-let _grate; function metalGrate(){ return _grate ||= pbr("metal_plate", { repeat:[8,.5], metal:1 }); }
-
-/* ═════════════════════ TRANSMISSION LINE ═════════════════════ */
-const towerGeo = (() => {
-  const parts = [], H = 34, add = (a, b, r=.11) => {
-    const d = new THREE.Vector3().subVectors(b, a), len = d.length();
-    const c = new THREE.CylinderGeometry(r, r, len, 5);
-    c.applyQuaternion(new THREE.Quaternion().setFromUnitVectors(new THREE.Vector3(0,1,0), d.clone().normalize()));
-    c.translate(a.x + d.x/2, a.y + d.y/2, a.z + d.z/2); parts.push(c);
-  };
-  const w = y => y < 24 ? 4 - y/24*3 : 1;                         // half-width by height
-  const V = (sx, sz, y) => new THREE.Vector3(sx*w(y), y, sz*w(y));
-  const corners = [[-1,-1],[1,-1],[1,1],[-1,1]];
-  corners.forEach(([sx,sz]) => { add(V(sx,sz,0), V(sx,sz,24), .16); add(V(sx,sz,24), V(sx,sz,H), .12); });
-  for (let y=0; y<H; y+=4){
-    const y2 = Math.min(H, y+4);
-    for (let i=0;i<4;i++){
-      const [ax,az] = corners[i], [bx,bz] = corners[(i+1)%4];
-      add(V(ax,az,y2), V(bx,bz,y2));
-      add(V(ax,az,y), V(bx,bz,y2), .07); add(V(bx,bz,y), V(ax,az,y2), .07);
-    }
-  }
-  [22, 28, 33].forEach((y, i) => {                                 // cross-arms
-    const reach = i === 2 ? 5 : 8;
-    add(new THREE.Vector3(-reach, y, -1), new THREE.Vector3(reach, y, -1), .12);
-    add(new THREE.Vector3(-reach, y, 1), new THREE.Vector3(reach, y, 1), .12);
-    add(new THREE.Vector3(-reach, y, -1), new THREE.Vector3(-w(y), y-2.5, -w(y)), .08);
-    add(new THREE.Vector3(reach, y, 1), new THREE.Vector3(w(y), y-2.5, w(y)), .08);
-  });
-  return mergeGeometries(parts);
-})();
-const ATTACH = [[-7.5,22],[7.5,22],[-7.5,28],[7.5,28],[-4.5,33],[4.5,33]];
-function transmissionLine(points){
-  const towers = points.map(([x, z], i) => {
-    const next = points[Math.min(i+1, points.length-1)], prev = points[Math.max(i-1, 0)];
-    const ang = Math.atan2(next[0]-prev[0], next[1]-prev[1]);
-    const y = heightAt(x, z);
-    const t = new THREE.Mesh(towerGeo, galv); t.position.set(x, y, z); t.rotation.y = ang + Math.PI/2;
-    t.castShadow = true; t.receiveShadow = true; scene.add(t);
-    const tips = ATTACH.map(([ax, ay]) => {
-      const ins = cyl(.12, .12, 2.2, insulatorMat, 0, 0, 0, t, 8); ins.position.set(ax, ay-1.1, 0);
-      return new THREE.Vector3(ax, ay-2.2, 0).applyEuler(t.rotation).add(t.position);
-    });
-    return tips;
-  });
-  for (let i=0;i<towers.length-1;i++){
-    towers[i].forEach((a, k) => {
-      const b = towers[i+1][k], span = a.distanceTo(b), sag = span*.035;
-      const pts = []; for (let s=0;s<=24;s++){ const u=s/24; pts.push(new THREE.Vector3().lerpVectors(a, b, u).add(new THREE.Vector3(0, -sag*4*u*(1-u), 0))); }
-      const m = new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts), 24, .045, 4), cableMat);
-      m.castShadow = true; scene.add(m);
+  var cur = 0;
+  function show(i){
+    var v = vids[i];
+    var next = vids[(i + 1) % vids.length];
+    if (next !== v) next.preload = "auto";          // warm up the next clip while this one plays
+    var p = reduced ? Promise.resolve() : v.play();
+    (p && p.catch ? p : Promise.resolve()).catch(function(){}).then(function(){
+      vids.forEach(function(o){ o.classList.toggle("on", o === v); });
+      setTimeout(function(){ vids.forEach(function(o){ if (o !== v) o.pause(); }); }, 2400);
     });
   }
-}
+  function start(){ show(0); document.body.classList.add("ready"); }
+  vids[0].addEventListener("loadeddata", start, { once:true });
+  setTimeout(function(){ document.body.classList.add("ready"); }, 1500);
 
-/* ═════════════════════ DATA CENTER CAMPUS ═════════════════════ */
-function fenceTexture(){
-  const c = document.createElement("canvas"); c.width = c.height = 64; const q = c.getContext("2d");
-  q.strokeStyle = "#fff"; q.lineWidth = 2.2;
-  q.beginPath(); q.moveTo(0,0); q.lineTo(64,64); q.moveTo(64,0); q.lineTo(0,64); q.stroke();
-  const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
-}
-function dataCenter(x, z){
-  const y = heightAt(x, z);
-  pad(pbr("concrete_floor_02", { repeat:[20,14] }), x, z, 230, 150);
-  const g = new THREE.Group(); g.position.set(x, y, z); scene.add(g);
-  [[-45, 0], [45, 0]].forEach(([bx, bz]) => {
-    const W = 80, D = 58, H = 14;
-    const b = box(W, H, D, wallMat, bx, H/2, bz, g);
-    b.material = [wallMatShort, wallMatShort, roofMat, roofMat, wallMat, wallMat];
-    box(W+.6, .6, D+.6, white, bx, H+.3, bz, g);
-    // rooftop chillers: fan decks in rows
-    const unit = new THREE.Group();
-    box(6, 1.9, 2.6, white, 0, .95, 0, unit);
-    [-1.6, 1.6].forEach(o => { cyl(1.05, 1.05, .25, darkSteel, o, 2, 0, unit, 24); });
-    for (let i=0;i<5;i++) for (let j=0;j<3;j++){
-      const u = unit.clone(); u.position.set(bx - 28 + i*14, H+.6, bz - 18 + j*18); g.add(u);
-    }
-    // loading doors & louvers on the long face
-    for (let i=0;i<6;i++) box(5, 3.2, .2, darkSteel, bx - 30 + i*12, 5, bz + D/2 + .05, g);
-    for (let i=0;i<3;i++) box(4.5, 4.5, .2, darkSteel, bx - 25 + i*25, 1.6+2.25, bz + D/2 + .05, g).scale.y = .7;
-  });
-  // generator yard: rows of genset enclosures with exhaust stacks
-  for (let i=0;i<8;i++){
-    const gx = -80 + i*11;
-    box(4, 3.6, 11, white, gx, 1.8, 50, g);
-    cyl(.28, .28, 2, darkSteel, gx, 4.4, 47, g, 10);
-    cyl(1.5, 1.5, 9, white, gx, 1.5, 62, g, 20).rotation.x = Math.PI/2;       // belly fuel tank
-  }
-  // substation
-  for (let i=0;i<3;i++){
-    const sx = 72 + i*12;
-    box(5, 4, 4, darkSteel, sx, 2, 52, g);
-    for (let f=0;f<7;f++) box(.1, 3.4, 4.6, darkSteel, sx - 2.9, 2, 52 - 1.5 + f*.5, g).scale.z = .1;
-    [-1.2, 0, 1.2].forEach(o => cyl(.12, .12, 1.8, insulatorMat, sx + o, 4.9, 52, g, 8));
-    box(.3, 11, .3, galv, sx - 4, 5.5, 58, g); box(.3, 11, .3, galv, sx + 4, 5.5, 58, g);
-    box(8.3, .3, .3, galv, sx, 11, 58, g);
-  }
-  // perimeter fence
-  const fmat = new THREE.MeshStandardMaterial({ color:"#8b9094", alphaMap:fenceTexture(), transparent:true, side:THREE.DoubleSide, metalness:.7, roughness:.5, depthWrite:false });
-  const fence = (ax, az, bx, bz) => {
-    const len = Math.hypot(bx-ax, bz-az);
-    const f = fmat.clone(); f.alphaMap = fmat.alphaMap.clone(); f.alphaMap.repeat.set(len/1.2, 2.4/1.2); f.alphaMap.needsUpdate = true;
-    const p = new THREE.Mesh(new THREE.PlaneGeometry(len, 2.4), f);
-    p.position.set((ax+bx)/2, 1.2, (az+bz)/2); p.rotation.y = -Math.atan2(bz-az, bx-ax); g.add(p);
-    for (let s=0;s<=len;s+=6) cyl(.05, .05, 2.6, galv, ax + (bx-ax)*s/len, 1.3, az + (bz-az)*s/len, g, 6);
-  };
-  fence(-110,-72, 110,-72); fence(110,-72, 110,72); fence(110,72,-110,72); fence(-110,72,-110,-72);
-  return g;
-}
-
-/* ═════════════════════ WIND TURBINES ═════════════════════ */
-const bladeGeo = (() => {
-  const s = new THREE.Shape();
-  s.moveTo(0, 0); s.bezierCurveTo(1.9, 2, 1.8, 10, 1.1, 30); s.lineTo(.25, 52); s.lineTo(-.15, 52);
-  s.lineTo(-.9, 30); s.bezierCurveTo(-1.1, 10, -1.1, 2, 0, 0);
-  const g = new THREE.ExtrudeGeometry(s, { depth:.35, bevelEnabled:true, bevelSize:.15, bevelThickness:.15, bevelSegments:2, curveSegments:10 });
-  g.translate(0, 1.6, -.17); return g;
-})();
-function turbine(x, z, phase){
-  const y = heightAt(x, z) - .5, H = 84;
-  const g = new THREE.Group(); g.position.set(x, y, z); scene.add(g);
-  cyl(1.35, 2.3, H, white, 0, H/2, 0, g, 40);
-  const head = new THREE.Group(); head.position.y = H; head.rotation.y = -0.9; g.add(head);
-  const nac = box(3.4, 3.6, 11, white, 0, 1.4, -1.5, head);
-  const hub = new THREE.Group(); hub.position.set(0, 1.4, 4.3); head.add(hub);
-  const spin = M(new THREE.SphereGeometry(1.7, 24, 16), white, 0, 0, .6, hub); spin.scale.z = 1.5;
-  for (let i=0;i<3;i++){ const b = M(bladeGeo, white, 0, 0, 0, hub); b.rotation.z = i*Math.PI*2/3; b.rotation.y = .12; }
-  const lamp = M(new THREE.SphereGeometry(.3, 8, 6), new THREE.MeshBasicMaterial({ color:"#ff2a1a" }), 0, 3.4, -6, head);
-  animators.push(t => { hub.rotation.z = reduced ? phase : -t*0.95 + phase; lamp.visible = reduced || (t*.5 + phase) % 2 < 1.1; });
-  return g;
-}
-
-/* ═════════════════════ THE GRAPH (only fully visible at the end) ═════════════════════ */
-const graph = new THREE.Group(); scene.add(graph);
-const graphMat = new THREE.MeshBasicMaterial({ color:"#ffd9a0", transparent:true, opacity:0, depthWrite:false, toneMapped:false });
-const nodeMat = new THREE.MeshBasicMaterial({ color:"#fff1d6", transparent:true, opacity:0, toneMapped:false });
-function graphEdge(a, b, lift){
-  const A = new THREE.Vector3(a[0], heightAt(a[0], a[1]) + a[2], a[1]);
-  const Bv = new THREE.Vector3(b[0], heightAt(b[0], b[1]) + b[2], b[1]);
-  const mid = A.clone().lerp(Bv, .5); mid.y += lift;
-  const tube = new THREE.Mesh(new THREE.TubeGeometry(new THREE.QuadraticBezierCurve3(A, mid, Bv), 60, .5, 6), graphMat);
-  graph.add(tube);
-}
-function graphNode(p){ const m = new THREE.Mesh(new THREE.SphereGeometry(3.2, 16, 12), nodeMat); m.position.set(p[0], heightAt(p[0], p[1]) + p[2], p[1]); graph.add(m); }
-
-/* ═════════════════════ BUILD THE WORLD ═════════════════════ */
-const SITES = {
-  pump:  [0, 0, 12],
-  edge:  [9, 9, 4],
-  tanks: [42, -38, 12],
-  dc:    [-300, -250, 26],
-  wind:  [380, -280, 110],
-  line:  [-150, -120, 40],
-};
-pad(gravel, 0, 0, 22, 18); pumpjack(0, 0, .25, 0);
-pad(gravel, -60, 38, 20, 16); pumpjack(-60, 38, -.6, 2.1, 6);
-pad(gravel, 70, 46, 20, 16); pumpjack(70, 46, 1.2, 4.2, 8);
-pad(gravel, -34, -70, 20, 16); pumpjack(-34, -70, .9, 1.1, 6.5);
-tanks(42, -38);
-road(0, 9, 0, 120); road(-60, 38, 0, 40, 4); road(70, 46, 0, 60, 4); road(42, -28, 8, 0, 4); road(-34, -62, -10, -8, 4);
-road(0, 120, -300, 30, 6); road(-300, 30, -300, -175, 6);
-dataCenter(-300, -250);
-transmissionLine([[-40, 20], [-120, -40], [-200, -100], [-265, -150]]);
-transmissionLine([[-340, -190], [-420, -140], [-520, -80], [-640, -20]]);
-[[300,-250],[360,-320],[430,-240],[480,-330],[250,-340],[520,-230]].forEach(([x,z], i) => turbine(x, z, i*1.3));
-
-graphEdge(SITES.pump, SITES.tanks, 14); graphEdge(SITES.pump, SITES.dc, 80); graphEdge(SITES.pump, SITES.wind, 110);
-graphEdge(SITES.dc, SITES.wind, 140); graphEdge(SITES.tanks, SITES.wind, 90); graphEdge(SITES.line, SITES.dc, 30); graphEdge(SITES.pump, SITES.line, 40);
-Object.values(SITES).forEach(graphNode);
-
-/* scanned props: edge box, barrels, grass and shrubs (loaded async, non-blocking for layout) */
-async function props(){
-  const [edgeBox, barrel, grass, shrub] = await Promise.all(["utility_box_02", "barrel_03", "grass_medium_02", "shrub_02"].map(id => polyModel(id).catch(e => (console.warn(id, e), null))));
-  const place = (obj, x, z, ry=0, s=1) => { const o = obj.clone(); o.position.set(x, heightAt(x, z), z); o.rotation.y = ry; o.scale.setScalar(s); scene.add(shadowed(o)); return o; };
-  if (edgeBox){ place(edgeBox, 9, 9, -.7, 1.25); place(edgeBox, 10.4, 8.2, -.7, 1.25); }
-  if (barrel) [[5,-7],[6,-6.2],[5.2,-5.8],[44,-26],[45,-27]].forEach(([x,z], i) => place(barrel, x, z, i, 1));
-  const avoid = (x, z) => {
-    if (Math.abs(x) < 4 && z > 0 && z < 130) return true;
-    if (x < -180 && x > -420 && z < -160 && z > -340) return true;
-    if (Math.abs(x-42) < 20 && Math.abs(z+38) < 13) return true;
-    for (const [px, pz] of [[0,0],[-60,38],[70,46],[-34,-70]]) if (Math.abs(x-px) < 12 && Math.abs(z-pz) < 10) return true;
-    return false;
-  };
-  function scatter(model, count, radius, cx, cz, scale, jitter){
-    if (!model) return;
-    const meshes = []; model.updateMatrixWorld(true);
-    model.traverse(c => { if (c.isMesh) meshes.push(c); });
-    const Mx = new THREE.Matrix4(), Q = new THREE.Quaternion(), S = new THREE.Vector3(), Pv = new THREE.Vector3(), E = new THREE.Euler();
-    const mats = [];
-    for (let i=0, tries=0; mats.length < count && tries < count*4; tries++){
-      const a = Math.random()*Math.PI*2, r = Math.sqrt(Math.random())*radius, x = cx + Math.cos(a)*r, z = cz + Math.sin(a)*r;
-      if (avoid(x, z)) continue;
-      const s = scale * (1 - jitter/2 + Math.random()*jitter);
-      mats.push(Mx.compose(Pv.set(x, heightAt(x, z), z), Q.setFromEuler(E.set(0, Math.random()*6.28, 0)), S.set(s, s*(.8+Math.random()*.5), s)).clone());
-    }
-    meshes.forEach(mesh => {
-      const geo = mesh.geometry.clone().applyMatrix4(mesh.matrixWorld);
-      const mat = mesh.material; mat.side = THREE.DoubleSide;
-      mat.onBeforeCompile = sh => {       // wind sway, stronger toward the tips
-        sh.uniforms.uTime = windTime;
-        sh.vertexShader = sh.vertexShader.replace("#include <common>", "#include <common>\nuniform float uTime;")
-          .replace("#include <begin_vertex>", `#include <begin_vertex>
-          vec4 ip = instanceMatrix[3];
-          float sway = sin(uTime*1.3 + ip.x*.35 + ip.z*.27) * .5 + sin(uTime*2.1 + ip.x*.8) * .2;
-          transformed.x += sway * position.y * .06;
-          transformed.z += sway * position.y * .03;`);
-      };
-      const im = new THREE.InstancedMesh(geo, mat, mats.length);
-      mats.forEach((m, i) => im.setMatrixAt(i, m));
-      im.receiveShadow = true; im.castShadow = !mobile && count < 800;
-      im.frustumCulled = false;
-      scene.add(im);
-    });
-  }
-  const dense = mobile ? .45 : 1;
-  scatter(grass, 5200*dense, 150, 0, 10, 1.1, .8);
-  scatter(grass, 1800*dense, 90, -150, -120, 1.2, .8);
-  scatter(grass, 1600*dense, 140, 330, -250, 1.4, .8);
-  scatter(shrub, 260*dense, 260, -20, 0, .55, .7);
-  scatter(shrub, 120*dense, 160, 360, -280, .7, .7);
-}
-const windTime = { value:0 };
-
-/* ═════════════════════ SKY + SUN (from the HDRI itself) ═════════════════════ */
-const sun = new THREE.DirectionalLight("#ffffff", 4.6);
-sun.castShadow = true;
-sun.shadow.mapSize.set(mobile ? 2048 : 4096, mobile ? 2048 : 4096);
-sun.shadow.bias = -0.0004; sun.shadow.normalBias = .6;
-Object.assign(sun.shadow.camera, { left:-90, right:90, top:90, bottom:-90, near:10, far:1400 });
-scene.add(sun, sun.target);
-const sunDir = new THREE.Vector3(.5, .35, -.6).normalize();
-
-async function sky(){
-  const hdr = await new RGBELoader(manager).setDataType(THREE.FloatType).loadAsync(`${PH}/HDRIs/hdr/2k/qwantani_late_afternoon_puresky_2k.hdr`);
-  hdr.mapping = THREE.EquirectangularReflectionMapping;
-  // find the sun: brightest pixel of the HDR
-  const { data, width, height } = hdr.image;
-  let best = 0, bx = 0, by = 0;
-  for (let y=0;y<height/2;y++) for (let x=0;x<width;x++){
-    const i = (y*width + x)*4, l = data[i]*.2126 + data[i+1]*.7152 + data[i+2]*.0722;
-    if (l > best){ best = l; bx = x; by = y; }
-  }
-  const u = (bx+.5)/width, v = 1 - (by+.5)/height;
-  const az = (u - .5) * Math.PI*2, el = (v - .5) * Math.PI;
-  sunDir.set(Math.cos(el)*Math.cos(az), Math.sin(el), Math.cos(el)*Math.sin(az)).normalize();
-  const i = (by*width + bx)*4, mx = Math.max(data[i], data[i+1], data[i+2]);
-  sun.color.setRGB(data[i]/mx, data[i+1]/mx*.97, data[i+2]/mx*.92);
-  // horizon colour for the haze, averaged around the sun's azimuth
-  let r=0,g=0,b=0,n=0; const hy = Math.floor(height*.5) - 2;
-  for (let x=0;x<width;x+=4){ const k=(hy*width+x)*4; r+=data[k]; g+=data[k+1]; b+=data[k+2]; n++; }
-  const haze = new THREE.Color(r/n, g/n, b/n);
-  scene.fog = new THREE.FogExp2(haze, mobile ? .00042 : .00036);
-  scene.background = hdr; scene.environment = hdr;
-  scene.environmentIntensity = .5; scene.backgroundIntensity = 1;
-}
-
-/* ═════════════════════ CAMERA SHOTS ═════════════════════ */
-const V = (x,y,z) => new THREE.Vector3(x,y,z);
-const G = (x,z,dy) => V(x, heightAt(x,z)+dy, z);
-const SHOTS = [
-  { pos:()=>G(34, 30, 2.4),    look:()=>G(-8, -14, 7) },              // establishing: low in the grass
-  { pos:()=>G(15, 12, 4.2),    look:()=>G(-1, 1, 4.6) },              // pumpjack close
-  { pos:()=>G(16, 15, 1.9),    look:()=>G(9.5, 8.5, 1.4) },           // edge box
-  { pos:()=>G(-60, 55, 9),     look:()=>G(-200, -100, 22) },          // along the power line
-  { pos:()=>G(-150, -120, 95), look:()=>G(-300, -250, 5) },           // data center, from the air
-  { pos:()=>G(170, -130, 14),  look:()=>G(380, -280, 60) },           // wind ridge
-  { pos:()=>G(170, 260, 230),  look:()=>G(-20, -120, 20), graph:true },// the whole graph
-];
-let shot = 0, from = null, to = null, tStart = 0, dur = 0;
-const camPos = new THREE.Vector3(), camLook = new THREE.Vector3();
-const ease = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t+2, 3)/2;
-let graphTarget = 0;
-
-function go(i, instant){
-  shot = Math.max(0, Math.min(SHOTS.length-1, i));
-  const s = SHOTS[shot];
-  from = { pos:camPos.clone(), look:camLook.clone() };
-  to = { pos:s.pos(), look:s.look() };
-  const dist = from.pos.distanceTo(to.pos);
-  dur = instant || reduced ? 0 : Math.min(6.5, 2.6 + dist/180);
-  tStart = clock.elapsedTime;
-  graphTarget = s.graph ? 1 : 0;
-  // keep the shadow map crisp around whatever we're looking at
-  const focus = to.look.clone(); const span = shot === 4 ? 200 : shot === 6 ? 420 : shot >= 3 ? 150 : 70;
-  Object.assign(sun.shadow.camera, { left:-span, right:span, top:span, bottom:-span });
-  sun.shadow.camera.updateProjectionMatrix();
-  sun.target.position.copy(focus); sun.position.copy(focus).addScaledVector(sunDir, 700);
-  showCaption();
-  document.getElementById("count").textContent = `${shot+1} / ${SHOTS.length}`;
-  document.getElementById("prev").disabled = shot === 0;
-  document.getElementById("next").disabled = shot === SHOTS.length-1;
-}
-
-function updateCamera(t){
-  if (!to) return;
-  const k = dur ? Math.min(1, (t - tStart)/dur) : 1, e = ease(k);
-  const lift = from.pos.distanceTo(to.pos) * .18 * Math.sin(Math.PI*e);
-  camPos.lerpVectors(from.pos, to.pos, e); camPos.y += lift;
-  camLook.lerpVectors(from.look, to.look, e);
-  // a slow, slight drift so still shots breathe
-  const drift = reduced ? 0 : 1;
-  camera.position.copy(camPos).add(V(Math.sin(t*.13)*.25, Math.sin(t*.17)*.12, Math.cos(t*.11)*.25).multiplyScalar(drift * (1 + camPos.y*.01)));
-  const look = camLook.clone();
-  // drag to look around
-  const off = new THREE.Vector3().subVectors(look, camera.position);
-  off.applyAxisAngle(V(0,1,0), view.yaw);
-  const right = new THREE.Vector3().crossVectors(off, V(0,1,0)).normalize();
-  off.applyAxisAngle(right, view.pitch);
-  camera.lookAt(camera.position.clone().add(off));
-}
-
-/* drag to look, springs back */
-const view = { yaw:0, pitch:0, ty:0, tp:0, dragging:false, x:0, y:0 };
-const cv = renderer.domElement;
-cv.addEventListener("pointerdown", e => { view.dragging = true; view.x = e.clientX; view.y = e.clientY; cv.setPointerCapture(e.pointerId); });
-cv.addEventListener("pointermove", e => {
-  if (!view.dragging) return;
-  view.ty = Math.max(-.5, Math.min(.5, view.ty + (e.clientX - view.x) * .003));
-  view.tp = Math.max(-.2, Math.min(.2, view.tp - (e.clientY - view.y) * .002));
-  view.x = e.clientX; view.y = e.clientY;
-});
-const release = () => { view.dragging = false; };
-cv.addEventListener("pointerup", release); cv.addEventListener("pointercancel", release);
-
-/* ═════════════════════ CAPTIONS & CONTROLS ═════════════════════ */
-const capEl = document.getElementById("caption"), avatarEl = document.getElementById("avatar");
-const esc = s => s.replace(/[&<>]/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;" }[c]));
-let capTimer = 0;
-function showCaption(){
-  const s = SCENES[shot];
-  capEl.classList.add("out");
-  avatarEl.classList.remove("on"); document.body.classList.toggle("guide", !!s.guide);
-  clearTimeout(capTimer);
-  capTimer = setTimeout(() => {
-    const H = s.h1 ? "h1" : "h2";
-    capEl.innerHTML = `<div class="kick">${esc(s.kick)}</div><${H}>${esc(s.title)}</${H}><p>${esc(s.text)}</p>` +
-      (s.figs ? `<div class="figs">${s.figs.map(([b, t]) => `<div><b>${esc(b)}</b><span>${esc(t)}</span></div>`).join("")}</div>` : "") +
-      (s.contact ? `<div class="links"><a href="mailto:preethunath@gmail.com">preethunath@gmail.com</a><a href="https://linkedin.com/in/preethu-nath-manjunath">LinkedIn</a><a href="https://github.com/preethu-manjunath">GitHub</a><a href="resume.html">Résumé</a></div>` : "");
-    capEl.classList.remove("out");
-    if (s.guide) avatarEl.classList.add("on");
-  }, reduced ? 0 : Math.min(1400, dur*450));
-}
-document.getElementById("next").addEventListener("click", () => go(shot+1));
-document.getElementById("prev").addEventListener("click", () => go(shot-1));
-addEventListener("keydown", e => {
-  if (["ArrowRight","ArrowDown","PageDown"," "].includes(e.key)){ e.preventDefault(); go(shot+1); }
-  if (["ArrowLeft","ArrowUp","PageUp"].includes(e.key)){ e.preventDefault(); go(shot-1); }
-});
-let wheelLock = 0;
-addEventListener("wheel", e => {
-  if (Math.abs(e.deltaY) < 12 || performance.now() < wheelLock) return;
-  wheelLock = performance.now() + 1400; go(shot + Math.sign(e.deltaY));
-}, { passive:true });
-let touchY = null;
-addEventListener("touchstart", e => { touchY = e.touches[0].clientY; }, { passive:true });
-addEventListener("touchend", e => {
-  if (touchY === null) return; const dy = touchY - e.changedTouches[0].clientY; touchY = null;
-  if (Math.abs(dy) > 60) go(shot + Math.sign(dy));
-}, { passive:true });
-
-addEventListener("resize", () => {
-  camera.aspect = innerWidth/innerHeight; camera.updateProjectionMatrix();
-  renderer.setSize(innerWidth, innerHeight); composer.setSize(innerWidth, innerHeight);
-});
-
-/* ═════════════════════ LOOP ═════════════════════ */
-const clock = new THREE.Clock();
-let graphAmt = 0;
-function frame(){
-  const t = clock.getElapsedTime();
-  windTime.value = reduced ? 0 : t;
-  animators.forEach(a => a(t));
-  view.yaw += ((view.dragging ? view.ty : (view.ty *= .94)) - view.yaw) * .1;
-  view.pitch += ((view.dragging ? view.tp : (view.tp *= .94)) - view.pitch) * .1;
-  updateCamera(t);
-  graphAmt += (graphTarget - graphAmt) * .03;
-  graphMat.opacity = graphAmt * .75; nodeMat.opacity = graphAmt;
-  graph.visible = graphAmt > .01;
-  composer.render();
-}
-
-/* ═════════════════════ START ═════════════════════ */
-(async () => {
-  try {
-    await Promise.all([sky(), props()]);
-  } catch (e) {
-    console.error(e);
-    loadTxt.textContent = "Some scenery couldn't load. Showing what we have.";
-  }
-  camPos.copy(V(120, 70, 240)); camLook.copy(V(0, 5, 0));
-  go(0);
-  dur = reduced ? 0 : 5; // a slow first approach
-  renderer.setAnimationLoop(frame);
-  setTimeout(() => document.getElementById("loader").classList.add("done"), 300);
+  if (vids.length > 1) setInterval(function(){
+    if (document.hidden) return;
+    cur = (cur + 1) % vids.length; show(cur);
+  }, HOLD);
 })();
 </script>
 </body>
