@@ -317,6 +317,21 @@ html,body{overflow:hidden}
 .panel .ctx{max-width:none;margin-top:10px;padding:10px 12px}
 .panel .ctx .q{display:none}
 .top{background:transparent;border:0;backdrop-filter:none;-webkit-backdrop-filter:none}
+/* two views: a clean opening, then the work */
+.stage{display:flex;align-items:center;justify-content:center}
+.intro{max-width:660px;width:100%;margin-right:auto}
+.panel{display:none;width:100%;max-width:1040px}
+.home.work .intro{display:none}
+.home.work .panel{display:block;animation:swap .45s var(--ease)}
+.home.work::after{background:rgba(10,10,9,.8)}
+.panel .graph svg{max-height:46vh}
+.panel-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.panel-top h2{font-size:22px;max-width:none;margin-right:auto}
+.panel-top button{border:1px solid var(--line);background:none;border-radius:999px;padding:7px 14px;font-size:14px;font-weight:600;color:var(--ink-2);cursor:pointer}
+.panel-top button:hover{color:var(--ink);border-color:rgba(255,255,255,.4)}
+.panel-top .cs-link{color:var(--accent);border-color:rgba(245,165,36,.4)}
+@media (max-width:900px){.intro{margin:0}}
+
 /* draw-in animations used to wait for a scene to open; here they run on load / when a pop-up opens */
 .home .graph .edge{stroke-dashoffset:0;transition:stroke-dashoffset 1s cubic-bezier(.65,0,.35,1)}
 .home .graph .hub{transform:none}
@@ -354,14 +369,18 @@ dialog[open] .tree .limb{stroke-dashoffset:0;transition:stroke-dashoffset 1.1s c
       <h1>I connect fragmented data and build AI that simplifies real-world work.</h1>
       <p class="lead">Applied AI engineer in Seattle. I build knowledge bases and engineer the context AI needs, so its answers are grounded and traceable.</p>
       <div class="actions">
-        <a class="primary" href="mailto:preethunath@gmail.com">Email me</a>
+        <button class="primary" type="button" data-work>Explore my work →</button>
         <button type="button" data-open="path">My path</button>
-        <button type="button" data-open="cs">Case study</button>
-        <a href="resume.html">Résumé</a>
+        <a href="mailto:preethunath@gmail.com">Email me</a>
       </div>
     </section>
 
     <section class="panel" aria-label="What I do">
+      <div class="panel-top">
+        <button type="button" class="back" data-home>← Back</button>
+        <h2>What I do</h2>
+        <button type="button" class="cs-link" data-open="cs">Case study</button>
+      </div>
       <div class="inds" role="tablist" aria-label="Industries" id="inds"></div>
       <div class="case" id="case" role="tabpanel" aria-live="polite"></div>
       <figure class="graph">
@@ -671,6 +690,21 @@ dialog[open] .tree .limb{stroke-dashoffset:0;transition:stroke-dashoffset 1.1s c
   });
   openIndustry(0);
 
+  /* ── two views ── */
+  var home = document.querySelector(".home");
+  function showWork(on, fromHash){
+    home.classList.toggle("work", on);
+    if (on){ openIndustry(Math.max(0, [].findIndex.call(indsEl.children, function(b){ return b.getAttribute("aria-selected") === "true"; }))); }
+    if (!fromHash) history.replaceState(null, "", on ? "#work" : location.pathname);
+    var t = document.querySelector(on ? ".panel-top h2" : ".intro h1"); if (t){ t.tabIndex = -1; t.focus({ preventScroll:true }); }
+    scrollTo(0, 0);
+  }
+  document.addEventListener("click", function(e){
+    if (e.target.closest("[data-work]")) showWork(true);
+    else if (e.target.closest("[data-home]")) showWork(false);
+  });
+  addEventListener("keydown", function(e){ if (e.key === "Escape" && home.classList.contains("work") && !document.querySelector("dialog[open]")) showWork(false); });
+
   /* ── pop-ups: my path and the case study, over the same screen ── */
   function openDlg(id){
     var d = document.getElementById(id); if (!d || d.open) return;
@@ -685,8 +719,12 @@ dialog[open] .tree .limb{stroke-dashoffset:0;transition:stroke-dashoffset 1.1s c
     var d = e.target.closest("dialog");
     if (e.target.closest("[data-close]") || (d && e.target === d)) (d || document.querySelector("dialog[open]")).close();
   });
-  [].forEach.call(document.querySelectorAll("dialog"), function(d){ d.addEventListener("close", function(){ history.replaceState(null, "", location.pathname); }); });
-  function fromHash(){ if (location.hash === "#case-study") openDlg("cs"); else if (location.hash === "#path") openDlg("path"); }
+  [].forEach.call(document.querySelectorAll("dialog"), function(d){ d.addEventListener("close", function(){ history.replaceState(null, "", home.classList.contains("work") ? "#work" : location.pathname); }); });
+  function fromHash(){
+    if (location.hash === "#work") showWork(true, true);
+    else if (location.hash === "#case-study"){ showWork(true, true); openDlg("cs"); }
+    else if (location.hash === "#path") openDlg("path");
+  }
   addEventListener("hashchange", fromHash); fromHash();
 })();
 </script>
