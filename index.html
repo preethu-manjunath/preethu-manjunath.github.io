@@ -669,8 +669,10 @@ h1:focus,h2:focus{outline:none}
       v.poster = v.dataset.src.replace(/-720\.mp4$/, "-thumb-720-0.jpg");
       if (!lite) v.src = v.dataset.src;
       // calmer motion: play the footage slower than real time
-      v.defaultPlaybackRate = 0.6; v.playbackRate = 0.6;
-      v.addEventListener("play", function(){ v.playbackRate = 0.6; });
+      // the pumpjack clip is a time-lapse, so it gets slowed much more than the rest
+      var rate = /48884/.test(v.dataset.src) ? 0.25 : 0.6;
+      v.defaultPlaybackRate = rate; v.playbackRate = rate;
+      v.addEventListener("play", function(){ v.playbackRate = rate; });
     });
   });
   function playShown(s){
