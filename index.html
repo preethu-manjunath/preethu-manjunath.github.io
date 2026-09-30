@@ -177,6 +177,18 @@ h1,h2{font-size:clamp(36px,5.8vw,76px);max-width:14ch}
 .ctx .cite{margin-top:8px;font-size:12.5px;color:var(--ink-3)}
 .ctx.swap{animation:swap .4s var(--ease)}
 
+/* "What I do" is a clean, light screen */
+.scene.light{--ink:#16140f;--ink-2:rgba(22,20,15,.74);--ink-3:rgba(22,20,15,.52);--line:rgba(22,20,15,.13);
+  --panel:#ffffff;--bg:#f6f3ec;--accent:#c07000;background:#f6f3ec;color:var(--ink)}
+.scene.light .case{background:#fff;box-shadow:0 1px 2px rgba(22,20,15,.04),0 10px 30px -18px rgba(22,20,15,.25)}
+.scene.light .graph .box{fill:#fff;stroke:rgba(22,20,15,.12)}
+.scene.light .graph .node circle{stroke:#f6f3ec}
+.scene.light .ctx{background:#fff}
+.scene.light .ctx li{background:#f6f3ec}
+.scene.light .asks button,.scene.light .inds button{background:#fff}
+.scene.light .inds button[aria-selected="true"],.scene.light .asks button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.scene.light .me img{filter:drop-shadow(0 6px 12px rgba(22,20,15,.18))}
+
 /* case study */
 .cs-open{margin-top:14px;border:0;background:none;padding:0;font-size:14.5px;font-weight:600;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
 .cs{width:min(920px,calc(100vw - 32px));max-height:calc(100vh - 48px);overflow:auto;padding:clamp(22px,4vw,40px);border:1px solid var(--line);border-radius:20px;
@@ -289,8 +301,7 @@ h1:focus,h2:focus{outline:none}
   </div>
 </section>
 
-<section class="scene film soft" id="what" aria-label="What I do">
-  <video class="show" data-src="https://assets.mixkit.co/videos/31428/31428-720.mp4" muted loop playsinline preload="none" aria-hidden="true"></video>
+<section class="scene light" id="what" aria-label="What I do">
   <div class="wrap split">
     <div>
       <div class="me rv">
