@@ -36,7 +36,8 @@ p{margin:0;text-wrap:pretty}
 
 /* header */
 .top{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;justify-content:space-between;align-items:center;
-  padding:18px clamp(20px,5vw,64px);font-size:15px;font-weight:500;pointer-events:none}
+  padding:16px clamp(20px,5vw,64px);font-size:15px;font-weight:500;pointer-events:none;
+  background:rgba(14,14,13,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid rgba(255,255,255,.06)}
 .top a{text-decoration:none;pointer-events:auto}
 .top .r{border-bottom:1px solid rgba(255,255,255,.5);padding-bottom:1px}
 .quick{display:flex;gap:clamp(14px,2vw,26px);pointer-events:auto}
@@ -159,6 +160,18 @@ h1,h2{font-size:clamp(36px,5.8vw,76px);max-width:14ch}
   #what .graph svg{max-height:50vh}
 }
 
+/* what the AI sees */
+.ctx{margin-top:12px;border:1px solid var(--line);border-radius:14px;padding:14px 16px;background:rgba(255,255,255,.03);max-width:560px}
+.ctx .ctx-h{font-size:13px;font-weight:700;color:var(--accent)}
+.ctx .ctx-h span{font-weight:500;color:var(--ink-3);margin-left:6px}
+.ctx .q{margin-top:8px;font-size:14px;color:var(--ink)}
+.ctx ul{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.ctx li{font-size:13px;border:1px solid var(--line);border-radius:8px;padding:4px 9px;background:rgba(0,0,0,.25)}
+.ctx li b{font-weight:600}
+.ctx li span{color:var(--ink-3);margin-left:6px}
+.ctx .cite{margin-top:8px;font-size:12.5px;color:var(--ink-3)}
+.ctx.swap{animation:swap .4s var(--ease)}
+
 /* case study */
 .cs-open{margin-top:14px;border:0;background:none;padding:0;font-size:14.5px;font-weight:600;color:var(--accent);text-decoration:underline;text-underline-offset:3px}
 .cs{width:min(920px,calc(100vw - 32px));max-height:calc(100vh - 48px);overflow:auto;padding:clamp(22px,4vw,40px);border:1px solid var(--line);border-radius:20px;
@@ -190,7 +203,7 @@ h1,h2{font-size:clamp(36px,5.8vw,76px);max-width:14ch}
 .talk-row p{font-size:17px;font-weight:600}
 .talk-row .links{margin-top:12px}
 .talk-row .links a{height:44px;padding:0 18px;font-size:15px}
-@media (max-width:760px){.quick a:not(.r){display:none}.top{background:rgba(14,14,13,.92);padding-top:14px;padding-bottom:14px}}
+@media (max-width:760px){.quick a:not(.r){display:none}.top{padding-top:14px;padding-bottom:14px}}
 
 /* my path: an evolution tree, Darwin-style */
 .path-ui{display:grid;grid-template-columns:minmax(0,440px) minmax(0,1fr);gap:clamp(24px,4vw,56px);margin-top:26px;align-items:center}
@@ -228,16 +241,17 @@ h1,h2{font-size:clamp(36px,5.8vw,76px);max-width:14ch}
 
 /* tabs along the bottom */
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;justify-content:center;gap:4px;padding:14px 16px calc(14px + env(safe-area-inset-bottom));
-  background:linear-gradient(0deg,rgba(0,0,0,.6),rgba(0,0,0,0));overflow-x:auto;scrollbar-width:none}
+  background:rgba(14,14,13,.94);border-top:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
 .tabs::-webkit-scrollbar{display:none}
 .tabs button{flex:none;border:0;background:none;padding:8px 14px;border-radius:999px;font-size:14px;font-weight:500;color:var(--ink-3);transition:color .2s,background .2s}
 .tabs button:hover{color:var(--ink)}
 .tabs button[aria-current="true"]{color:var(--ink);background:rgba(255,255,255,.12)}
 @media (min-width:1000px){
-  .tabs{top:12px;bottom:auto;left:50%;right:auto;transform:translateX(-50%);padding:0;background:none;overflow:visible}
+  .tabs{top:10px;bottom:auto;left:50%;right:auto;transform:translateX(-50%);padding:0;background:none;border:0;overflow:visible}
   .wrap{padding-bottom:56px}
 }
-@media (max-width:760px){.tabs{justify-content:flex-start;background:rgba(14,14,13,.94);border-top:1px solid var(--line)}}
+@media (max-width:999px){.wrap{padding-bottom:96px}}
+@media (max-width:760px){.tabs{justify-content:flex-start}}
 /* headings take focus when a scene opens (for screen readers); no ring needed */
 h1:focus,h2:focus{outline:none}
 
@@ -264,9 +278,8 @@ h1:focus,h2:focus{outline:none}
   <video class="show" data-src="https://assets.mixkit.co/videos/20822/20822-720.mp4" muted loop playsinline preload="auto" aria-hidden="true"></video>
   <video data-src="https://assets.mixkit.co/videos/48353/48353-720.mp4" muted loop playsinline preload="none" aria-hidden="true"></video>
   <div class="wrap">
-    <p class="kicker rv">Oil &amp; gas. Data centers. AI, AI, AI. Everyone's talking about it.</p>
     <h1 class="rv">I connect fragmented data and build AI that simplifies real-world work.</h1>
-    <p class="lead rv">Applied AI engineer in Seattle, working across knowledge graphs, document automation and enterprise workflows.</p>
+    <p class="lead rv">Applied AI engineer in Seattle. I build knowledge bases and engineer the context AI needs, so its answers are grounded and traceable.</p>
     <button class="next rv" type="button" data-next>Explore my work <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
   </div>
 </section>
@@ -279,7 +292,7 @@ h1:focus,h2:focus{outline:none}
         <div class="who"><b>Hi, I'm Preethu.</b>Knowledge graphs · Seattle</div>
       </div>
       <h2 class="rv">Complex workflows, connected.</h2>
-      <p class="lead rv">Energy is where I go deepest. The same approach works anywhere data is scattered across systems.</p>
+      <p class="lead rv">I turn scattered data into a knowledge base, then give AI exactly the context it needs. Energy is where I go deepest.</p>
       <div class="inds rv" role="tablist" aria-label="Industries" id="inds"></div>
       <div class="case rv" id="case" role="tabpanel" aria-live="polite"></div>
       <button class="next rv" type="button" data-next>How did you get here? <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
@@ -290,6 +303,7 @@ h1:focus,h2:focus{outline:none}
       </svg>
       <div class="asks" id="asks" role="group" aria-label="Ask the graph"></div>
       <figcaption id="graphCap"></figcaption>
+      <div class="ctx" id="ctx" aria-live="polite" hidden></div>
     </figure>
   </div>
 </section>
@@ -389,7 +403,7 @@ h1:focus,h2:focus{outline:none}
     ["CU Boulder · Honda", "Make results easy to ask about and trust.", "I led a team predicting vehicle recalls at 87% precision, then let managers ask the data questions in plain English."],
     ["CodeModulo", "Speed is a feature.", "By changing how we called Claude and LLaMA, our support chatbot answered about 30% faster."],
     ["KOBEYO", "Less copy-pasting, more talking to people.", "A multi-agent RAG platform for job matching. 98%+ of job descriptions parsed cleanly, and the top-10 matches got 15–25% better."],
-    ["Data Squared · now", "Connecting energy data.", "Knowledge graphs that link an oil and gas company's operations, maintenance, assets and finance."]
+    ["Data Squared · now", "Knowledge bases AI can reason over.", "Knowledge graphs and context engineering: turning an oil and gas company's operations, maintenance, assets and finance into one knowledge base, so AI answers from the right facts and shows where they came from."]
   ];
   var ns = "http://www.w3.org/2000/svg";
   function el(tag, a, parent){ var e = document.createElementNS(ns, tag); for (var k in a) e.setAttribute(k, a[k]); parent.appendChild(e); return e; }
@@ -500,7 +514,19 @@ h1:focus,h2:focus{outline:none}
     });
     if (text !== undefined) cap.innerHTML = text; else if (!keys) cap.textContent = DEFAULT_CAP;
   }
-  function clearAsk(){ activeAsk = -1; [].forEach.call(asksEl.children, function(b){ b.setAttribute("aria-pressed", "false"); }); light(null); }
+  function clearAsk(){ hideContext(); activeAsk = -1; [].forEach.call(asksEl.children, function(b){ b.setAttribute("aria-pressed", "false"); }); light(null); }
+
+  // context engineering, made visible: what the knowledge base hands the model for this question
+  var ctxEl = document.getElementById("ctx");
+  function showContext(a){
+    ctxEl.innerHTML = '<div class="ctx-h">What the AI sees <span>assembled by the knowledge base</span></div>' +
+      '<p class="q">Q: ' + esc(a[0]) + '</p><ul>' +
+      a[1].map(function(name){ return '<li><b>' + esc(name) + '</b><span>from ' + esc(N[name] ? N[name].sys : "") + '</span></li>'; }).join("") +
+      '</ul><p class="cite">Only these facts go in. The answer cites every source.</p>';
+    ctxEl.hidden = false;
+    ctxEl.classList.remove("swap"); void ctxEl.offsetWidth; ctxEl.classList.add("swap");
+  }
+  function hideContext(){ if (ctxEl) ctxEl.hidden = true; }
 
   function toSvg(e){ var pt = gsvg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; return pt.matrixTransform(gsvg.getScreenCTM().inverse()); }
   function draggable(target, obj, onClick){
@@ -572,7 +598,7 @@ h1:focus,h2:focus{outline:none}
       var b = document.createElement("button"); b.type = "button"; b.textContent = a[0]; b.setAttribute("aria-pressed", "false");
       b.addEventListener("click", function(){
         var on = activeAsk !== k; clearAsk();
-        if (on){ activeAsk = k; b.setAttribute("aria-pressed", "true"); light(a[1], esc(a[1].join(" → ")) + ". <b>One question, every system.</b>"); }
+        if (on){ activeAsk = k; b.setAttribute("aria-pressed", "true"); light(a[1], esc(a[1].join(" → ")) + ". <b>One question, every system.</b>"); showContext(a); }
       });
       asksEl.appendChild(b);
     });
@@ -593,9 +619,20 @@ h1:focus,h2:focus{outline:none}
   });
   openIndustry(0);
   var cs = document.getElementById("cs");
+  function openCase(){
+    var w = scenes.findIndex(function(sc){ return sc.id === "what"; });
+    if (cur !== w) go(w, true);
+    if (cs.open) return;
+    if (typeof cs.showModal === "function"){ try { cs.showModal(); } catch (err){ cs.setAttribute("open", ""); } }
+    else cs.setAttribute("open", "");
+    history.replaceState(null, "", "#case-study");
+    cs.querySelector("[data-close]").focus();
+  }
+  function closeCase(){ if (cs.open){ if (cs.close) cs.close(); else cs.removeAttribute("open"); } }
+  cs.addEventListener("close", function(){ history.replaceState(null, "", "#what"); });
   document.addEventListener("click", function(e){
-    if (e.target.closest("[data-case]")) cs.showModal();
-    else if (e.target.closest("[data-close]") || e.target === cs) cs.close();
+    if (e.target.closest("[data-case]")){ e.preventDefault(); openCase(); }
+    else if (e.target.closest("[data-close]") || e.target === cs) closeCase();
   });
 
   /* ── tabs ── */
@@ -655,10 +692,12 @@ h1:focus,h2:focus{outline:none}
     if (e.key === "ArrowLeft"  || e.key === "PageUp"){ e.preventDefault(); go(cur - 1); }
   });
   addEventListener("hashchange", function(){
+    if (location.hash === "#case-study"){ openCase(); return; }
     var k = scenes.findIndex(function(s){ return "#" + s.id === location.hash; }); if (k >= 0) go(k, true);
   });
   var start = scenes.findIndex(function(s){ return "#" + s.id === location.hash; });
   go(start >= 0 ? start : 0, "load");
+  if (location.hash === "#case-study") openCase();
 })();
 </script>
 </body>
