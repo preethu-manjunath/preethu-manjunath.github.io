@@ -653,7 +653,11 @@ h1:focus,h2:focus{outline:none}
   /* ── videos: only the active scene's clip loads and plays ── */
   var c = navigator.connection, lite = reduced || (c && (c.saveData || /2g/.test(c.effectiveType || "")));
   scenes.forEach(function(s){
-    [].forEach.call(s.querySelectorAll("video"), function(v){ v.src = lite ? v.dataset.src + "#t=2" : v.dataset.src; });
+    [].forEach.call(s.querySelectorAll("video"), function(v){
+      // a still frame shows immediately, so a slow or blocked video never leaves the screen black
+      v.poster = v.dataset.src.replace(/-720\.mp4$/, "-thumb-720-0.jpg");
+      if (!lite) v.src = v.dataset.src;
+    });
   });
   function playShown(s){
     var v = s.querySelector("video.show"); if (!v || lite) return;
