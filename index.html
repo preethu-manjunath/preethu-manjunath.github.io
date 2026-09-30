@@ -179,13 +179,13 @@ h1,h2{font-size:clamp(36px,5.8vw,76px);max-width:14ch}
 
 /* "What I do" is a clean, light screen */
 .scene.light{--ink:#16140f;--ink-2:rgba(22,20,15,.74);--ink-3:rgba(22,20,15,.52);--line:rgba(22,20,15,.13);
-  --panel:#ffffff;--bg:#f6f3ec;--accent:#c07000;background:#f6f3ec;color:var(--ink)}
-.scene.light .case{background:#fff;box-shadow:0 1px 2px rgba(22,20,15,.04),0 10px 30px -18px rgba(22,20,15,.25)}
-.scene.light .graph .box{fill:#fff;stroke:rgba(22,20,15,.12)}
-.scene.light .graph .node circle{stroke:#f6f3ec}
-.scene.light .ctx{background:#fff}
-.scene.light .ctx li{background:#f6f3ec}
-.scene.light .asks button,.scene.light .inds button{background:#fff}
+  --panel:#f1ece3;--bg:#dcd4c6;--accent:#a45f00;background:#dcd4c6;color:var(--ink)}
+.scene.light .case{background:#f1ece3;box-shadow:0 1px 2px rgba(22,20,15,.04),0 10px 30px -18px rgba(22,20,15,.25)}
+.scene.light .graph .box{fill:#ebe5da;stroke:rgba(22,20,15,.14)}
+.scene.light .graph .node circle{stroke:#dcd4c6}
+.scene.light .ctx{background:#f1ece3}
+.scene.light .ctx li{background:#e3dccf}
+.scene.light .asks button,.scene.light .inds button{background:#ebe5da}
 .scene.light .inds button[aria-selected="true"],.scene.light .asks button[aria-pressed="true"]{background:var(--ink);color:#fff}
 .scene.light .me img{filter:drop-shadow(0 6px 12px rgba(22,20,15,.18))}
 
@@ -668,6 +668,9 @@ h1:focus,h2:focus{outline:none}
       // a still frame shows immediately, so a slow or blocked video never leaves the screen black
       v.poster = v.dataset.src.replace(/-720\.mp4$/, "-thumb-720-0.jpg");
       if (!lite) v.src = v.dataset.src;
+      // calmer motion: play the footage slower than real time
+      v.defaultPlaybackRate = 0.6; v.playbackRate = 0.6;
+      v.addEventListener("play", function(){ v.playbackRate = 0.6; });
     });
   });
   function playShown(s){
@@ -682,7 +685,7 @@ h1:focus,h2:focus{outline:none}
     n.preload = "auto"; var p = n.play(); if (p && p.catch) p.catch(function(){});
     n.classList.add("show"); vs[k].classList.remove("show");
     setTimeout(function(){ if (!vs[k].classList.contains("show")) vs[k].pause(); }, 1700);
-  }, 7000);
+  }, 12000);
 
   /* ── moving between scenes ── */
   var cur = -1;
